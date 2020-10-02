@@ -1,6 +1,14 @@
 version: '3'
 
 services:
+  app:
+    container_name: le4db_app_dev
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    command: reflex -r '(\.go$$|go\.mod)' -s go run main.go
+    volumes:
+      - .:/go/src/github.com/atrn0/le4db
   postgres:
     container_name: le4db_postgres
     image: postgres:13
