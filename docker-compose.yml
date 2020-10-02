@@ -19,6 +19,15 @@ services:
     - le4db_pgdata:/var/lib/postgresql/data
     ports:
     - 5432:5432
+  seed:
+    container_name: le4db_seed
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    command: go run seed.go
+    volumes:
+    - .:/go/src/github.com/atrn0/le4db
+
 
 volumes:
   le4db_pgdata:

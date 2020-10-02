@@ -3,17 +3,13 @@ package main
 import (
 	"log"
 
-	"gorm.io/driver/postgres"
-	"gorm.io/gorm"
-	"gorm.io/gorm/logger"
-
+	database "github.com/atrn0/le4db/db"
 	"github.com/atrn0/le4db/entity"
 )
 
 func main() {
 	//	connect db
-	dsn := "host=postgres user=le4db password=password dbname=le4db port=5432 sslmode=disable TimeZone=Asia/Tokyo"
-	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{Logger: logger.Default.LogMode(logger.Info)})
+	db, err := database.NewDB()
 	if err != nil {
 		log.Fatalln("failed to connect db")
 	}
