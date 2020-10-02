@@ -19,7 +19,12 @@ func main() {
 	}
 
 	//	auto migrate
-	err = db.AutoMigrate(&entity.Hosts{})
+	err = db.AutoMigrate(
+		&entity.Host{},
+		&entity.Guest{},
+		&entity.Room{},
+		&entity.Reservation{},
+	)
 	if err != nil {
 		log.Fatalln("failed to migrate db schema")
 	}
