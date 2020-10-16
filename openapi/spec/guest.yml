@@ -77,61 +77,28 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Reservations'
-
-
-#  /orders:
-#    post:
-#      tags:
-#        - orders
-#      operationId: postOrders
-#      description: 注文を作成
-#      security:
-#        - idToken: []
-#      requestBody:
-#        description: 注文の作成リクエスト
-#        required: true
-#        content:
-#          application/json:
-#            schema:
-#              $ref: '#/components/schemas/PostOrdersReq'
-#      responses:
-#        201:
-#          description: Created
-#          content:
-#            application/json:
-#              schema:
-#                $ref: '#/components/schemas/PostOrdersRes'
-#  /menus:
-#    get:
-#      tags:
-#        - menus
-#      operationId: getMenus
-#      description: メニュー一覧
-#      security:
-#        - idToken: []
-#      responses:
-#        200:
-#          description: OK
-#          content:
-#            application/json:
-#              schema:
-#                $ref: '#/components/schemas/GetMenusRes'
-#  /users/me:
-#    get:
-#      tags:
-#        - users
-#      operationId: getMyself
-#      description: ログインしているユーザー情報を取得
-#      security:
-#        - idToken: []
-#      responses:
-#        200:
-#          description: OK
-#          content:
-#            application/json:
-#              schema:
-#                $ref: '#/components/schemas/GetMyselfRes'
+                $ref: '#/components/schemas/GetReservationsRes'
+    post:
+      tags:
+        - reservations
+      operationId: postReservations
+      description: 新しい予約
+      security:
+        - idToken: []
+      requestBody:
+        description: 新しい予約リクエスト
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostReservationsReq'
+      responses:
+        201:
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Reservation'
 
 components:
   schemas:
@@ -156,7 +123,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Room'
-    Reservations:
+    GetReservationsRes:
       type: object
       required:
         - reservations
@@ -165,6 +132,25 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Reservation'
+    PostReservationsReq:
+      type: object
+      required:
+        - check_in
+        - check_out
+        - room_id
+      properties:
+        check_in:
+          type: string
+          format: date-time
+          example: 2006-01-02T15:04:05Z07:00
+        check_out:
+          type: string
+          format: date-time
+          example: 2006-01-02T15:04:05Z07:00
+        room_id:
+          type: string
+          example: asoiejfl
+
     Room:
       type: object
       required:
@@ -214,85 +200,3 @@ components:
           example: slafdjio
         room_name:
           type: string
-
-
-#    PostOrdersReq:
-#      type: object
-#      required:
-#        - menu_id
-#      properties:
-#        menu_id:
-#          type: string
-#          example: klasjdfl
-#    PostOrdersRes:
-#      type: object
-#      required:
-#        - stripe_cs
-#      properties:
-#        stripe_cs:
-#          type: string
-#          example: cs_xxxxxxxxxx
-#    GetMenusRes:
-#      type: object
-#      required:
-#        - menus
-#      properties:
-#        menus:
-#          type: array
-#          items:
-#            $ref: '#/components/schemas/Menu'
-#    GetMyselfRes:
-#      type: object
-#      required:
-#        - stripe_pm
-#      properties:
-#        stripe_pm:
-#          type: array
-#          description: ストライプのPaymentMethodのリスト
-#          items:
-#            $ref: '#/components/schemas/PaymentMethod'
-#
-#    PaymentMethod:
-#      type: object
-#      required:
-#        - id
-#        - card
-#      properties:
-#        id:
-#          type: string
-#          description: PaymentMethod ID
-#        card:
-#          $ref: '#/components/schemas/Card'
-#    Card:
-#      type: object
-#      required:
-#        - brand
-#        - last4
-#      properties:
-#        brand:
-#          type: string
-#          example: visa
-#        last4:
-#          type: string
-#          example: "1234"
-#
-#    Menu:
-#      type: object
-#      required:
-#        - id
-#        - name
-#        - price
-#      properties:
-#        id:
-#          type: string
-#          example: btjncdh1u11sp04ogbsg
-#        name:
-#          type: string
-#          example: カレー
-#        price:
-#          type: integer
-#          example: 200
-#  securitySchemes:
-#    idToken:
-#      type: http
-#      scheme: bearer
