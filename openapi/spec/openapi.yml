@@ -1,0 +1,298 @@
+openapi: 3.0.3
+info:
+  title: airdnb API (for guest)
+  version: "1"
+servers:
+  - url: http://localhost:8080/v1/guest
+    description: guest API
+paths:
+  /users:
+    post:
+      tags:
+        - users
+      operationId: postUsers
+      description: 新しいユーザー(ゲスト)を作成
+      security:
+        - idToken: []
+      requestBody:
+        description: 新しいユーザーの作成リクエスト
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostUsersReq'
+      responses:
+        204:
+          description: No Content
+  /rooms:
+    get:
+#      TODO: 検索クエリを追加
+      tags:
+        - rooms
+      operationId: getRooms
+      description: 部屋を取得
+      security:
+        - idToken: []
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref:  '#/components/schemas/GetRoomsRes'
+  /rooms/{roomId}:
+    get:
+      tags:
+        - rooms
+      operationId: getRoom
+      description: 部屋の詳細情報を取得
+      security:
+        - idToken: []
+      parameters:
+        - in: path
+          name: roomId
+          description: Room ID
+          schema:
+            type: string
+          required: true
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Room'
+  /reservations:
+    get:
+#      TODO: 時間でcursor
+      tags:
+        - reservations
+      operationId: getReservations
+      description: 予約一覧を取得
+      security:
+        - idToken: []
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Reservations'
+
+
+#  /orders:
+#    post:
+#      tags:
+#        - orders
+#      operationId: postOrders
+#      description: 注文を作成
+#      security:
+#        - idToken: []
+#      requestBody:
+#        description: 注文の作成リクエスト
+#        required: true
+#        content:
+#          application/json:
+#            schema:
+#              $ref: '#/components/schemas/PostOrdersReq'
+#      responses:
+#        201:
+#          description: Created
+#          content:
+#            application/json:
+#              schema:
+#                $ref: '#/components/schemas/PostOrdersRes'
+#  /menus:
+#    get:
+#      tags:
+#        - menus
+#      operationId: getMenus
+#      description: メニュー一覧
+#      security:
+#        - idToken: []
+#      responses:
+#        200:
+#          description: OK
+#          content:
+#            application/json:
+#              schema:
+#                $ref: '#/components/schemas/GetMenusRes'
+#  /users/me:
+#    get:
+#      tags:
+#        - users
+#      operationId: getMyself
+#      description: ログインしているユーザー情報を取得
+#      security:
+#        - idToken: []
+#      responses:
+#        200:
+#          description: OK
+#          content:
+#            application/json:
+#              schema:
+#                $ref: '#/components/schemas/GetMyselfRes'
+
+components:
+  schemas:
+    PostUsersReq:
+      type: object
+      required:
+        - user_id
+        - name
+      properties:
+        user_id:
+          type: string
+          example: alskdjfaslkdf
+        name:
+          type: string
+          example: たなか
+    GetRoomsRes:
+      type: object
+      required:
+        - rooms
+      properties:
+        rooms:
+          type: array
+          items:
+            $ref: '#/components/schemas/Room'
+    Reservations:
+      type: object
+      required:
+        - reservations
+      properties:
+        reservations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Reservation'
+    Room:
+      type: object
+      required:
+        - id
+        - name
+        - price
+        - host_id
+        - host_name
+      properties:
+        id:
+          type: string
+          example: laksjdfasdf
+        name:
+          type: string
+          example: リッツカールトン
+        price:
+          type: integer
+          example: 2000000
+        host_id:
+          type: string
+          example: llkajsdfil
+        host_name:
+          type: string
+          example: ほんだ
+    Reservation:
+      type: object
+      required:
+        - id
+        - check_in
+        - check_out
+        - room_id
+        - room_name
+      properties:
+        id:
+          type: string
+          example: lsakdjfoie
+        check_in:
+          type: string
+          format: date-time
+          example: 2006-01-02T15:04:05Z07:00
+        check_out:
+          type: string
+          format: date-time
+          example: 2006-01-02T15:04:05Z07:00
+        room_id:
+          type: string
+          example: slafdjio
+        room_name:
+          type: string
+
+
+#    PostOrdersReq:
+#      type: object
+#      required:
+#        - menu_id
+#      properties:
+#        menu_id:
+#          type: string
+#          example: klasjdfl
+#    PostOrdersRes:
+#      type: object
+#      required:
+#        - stripe_cs
+#      properties:
+#        stripe_cs:
+#          type: string
+#          example: cs_xxxxxxxxxx
+#    GetMenusRes:
+#      type: object
+#      required:
+#        - menus
+#      properties:
+#        menus:
+#          type: array
+#          items:
+#            $ref: '#/components/schemas/Menu'
+#    GetMyselfRes:
+#      type: object
+#      required:
+#        - stripe_pm
+#      properties:
+#        stripe_pm:
+#          type: array
+#          description: ストライプのPaymentMethodのリスト
+#          items:
+#            $ref: '#/components/schemas/PaymentMethod'
+#
+#    PaymentMethod:
+#      type: object
+#      required:
+#        - id
+#        - card
+#      properties:
+#        id:
+#          type: string
+#          description: PaymentMethod ID
+#        card:
+#          $ref: '#/components/schemas/Card'
+#    Card:
+#      type: object
+#      required:
+#        - brand
+#        - last4
+#      properties:
+#        brand:
+#          type: string
+#          example: visa
+#        last4:
+#          type: string
+#          example: "1234"
+#
+#    Menu:
+#      type: object
+#      required:
+#        - id
+#        - name
+#        - price
+#      properties:
+#        id:
+#          type: string
+#          example: btjncdh1u11sp04ogbsg
+#        name:
+#          type: string
+#          example: カレー
+#        price:
+#          type: integer
+#          example: 200
+#  securitySchemes:
+#    idToken:
+#      type: http
+#      scheme: bearer
