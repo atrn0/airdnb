@@ -8,7 +8,7 @@ import (
 
 func NewDB() (*gorm.DB, error) {
 	dsn := "host=postgres user=le4db password=password dbname=le4db port=5432 sslmode=disable TimeZone=Asia/Tokyo"
-	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{Logger: logger.Default.LogMode(logger.Info)})
+	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{Logger: logger.Default.LogMode(logger.Warn)})
 	if err != nil {
 		return nil, err
 	}
