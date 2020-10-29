@@ -3,8 +3,8 @@ package main
 import (
 	"log"
 
-	database "github.com/atrn0/le4db/backend/db"
-	"github.com/atrn0/le4db/backend/entity"
+	database "github.com/atrn0/le4db/db"
+	"github.com/atrn0/le4db/entity"
 )
 
 func main() {
