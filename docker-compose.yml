@@ -27,6 +27,15 @@ services:
     command: go run seed.go
     volumes:
     - .:/go/src/github.com/atrn0/le4db
+  swagger-ui:
+    container_name: le4db-swagger-ui
+    image: swaggerapi/swagger-ui:v3.20.7
+    ports:
+      - 8081:8080
+    volumes:
+      - ./openapi/spec/:/usr/share/nginx/html/spec/
+    env_file:
+      - openapi/swagger.env
 
 volumes:
   le4db_pgdata:

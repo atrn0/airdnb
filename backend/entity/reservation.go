@@ -3,11 +3,11 @@ package entity
 import "time"
 
 type Reservation struct {
-	ID       string    `gorm:"type:VARCHAR(32)"`
-	CheckIn  time.Time `gorm:""`
-	CheckOut time.Time `gorm:"check:check_in < check_out"`
+	ID       string
+	CheckIn  time.Time
+	CheckOut time.Time
 	RoomID   string
-	Room     Room `gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
+	Room     Room
 	GuestID  string
-	Guest    Guest `gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
+	Guest    Guest
 }
