@@ -11,6 +11,6 @@ CREATE TABLE IF NOT EXISTS "reservations"
     CONSTRAINT "chk_reservations_check_out" CHECK (check_in < check_out)
 );
 
-create index on reservations (guest_id);
-create index on reservations (check_in, check_out);
-create index on reservations (room_id);
+create index guest_id_idx on reservations (guest_id);
+create index check_in_check_out_idx on reservations (check_in, check_out);
+create index room_id_idx on reservations (room_id);

@@ -9,5 +9,5 @@ CREATE TABLE IF NOT EXISTS "rooms"
     CONSTRAINT "price_dom_checker" CHECK (price >= 0)
 );
 
-create index on rooms (price);
-create index on rooms (host_id);
+create index price_idx on rooms (price);
+create index host_id_idx on rooms (host_id);

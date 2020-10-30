@@ -9,4 +9,4 @@ RUN set -ex \
 
 FROM scratch
 COPY --from=builder /psqldef /usr/local/bin/psqldef
-CMD ["psqldef"]
+ENTRYPOINT ["psqldef"]

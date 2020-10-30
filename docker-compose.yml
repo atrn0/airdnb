@@ -14,7 +14,7 @@ services:
     image: postgres:13
     environment:
       - POSTGRES_USER=le4db
-      - POSTGRES_PASSWORD=password
+      - POSTGRES_PASSWORD=pass
     volumes:
     - le4db_pgdata:/var/lib/postgresql/data
     ports:
@@ -27,14 +27,6 @@ services:
     command: go run seed.go
     volumes:
     - .:/go/src/github.com/atrn0/le4db
-  psqldef:
-    container_name: le4db_psqldef
-    build:
-      context: backend
-      dockerfile: docker/sqldef/Dockerfile
-    volumes:
-    - psql:/schema
 
 volumes:
   le4db_pgdata:
-
