@@ -9,6 +9,7 @@ import (
 
 	oapi "github.com/atrn0/le4db/gen/openapi"
 	"github.com/atrn0/le4db/handler"
+	m "github.com/atrn0/le4db/middleware"
 )
 
 type Server struct {
@@ -25,6 +26,7 @@ func (s *Server) Start() {
 
 	e := s.e
 	e.Use(middleware.CORS())
+	e.Use(m.AuthMiddleware)
 
 	h := handler.NewHandler()
 
