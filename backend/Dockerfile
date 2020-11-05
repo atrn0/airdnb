@@ -5,7 +5,7 @@ ENV GOARCH=amd64
 ENV CGO_ENABLED=0
 ENV GO111MODULE=on
 
-WORKDIR /go/src/github.com/atrn0/le4db
+WORKDIR /go/src/github.com/atrn0/le4db/backend
 
 COPY go.mod go.sum ./
 RUN go mod download

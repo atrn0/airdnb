@@ -2,6 +2,9 @@ DB_SCHEMA_DIR=backend/psql
 OPENAPI_SPEC=openapi/spec/openapi.yml
 BACKEND_OPENAPI_GEN_DIR=backend/gen/openapi
 
+start-server:
+	docker-compose up --build app postgres
+
 gen:
 	make openapi-gen
 
