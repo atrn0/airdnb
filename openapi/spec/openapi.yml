@@ -1,16 +1,16 @@
 openapi: 3.0.3
 info:
-  title: airdnb API (for guest)
+  title: airdnb API
   version: "1"
 servers:
-  - url: http://localhost:8080/v1/guest
-    description: guest API
+  - url: http://localhost:8080/v1
+    description: API
 paths:
-  /users:
+  /guests/users:
     post:
       tags:
         - users
-      operationId: postUsers
+      operationId: guestsPostUsers
       description: 新しいユーザー(ゲスト)を作成
       security:
         - idToken: []
@@ -20,16 +20,16 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PostUsersReq'
+              $ref: '#/components/schemas/GuestsPostUsersReq'
       responses:
         204:
           description: No Content
-  /rooms:
+  /guests/rooms:
     get:
-#      TODO: 検索クエリを追加
+      #      TODO: 検索クエリを追加
       tags:
         - rooms
-      operationId: getRooms
+      operationId: guestsGetRooms
       description: 部屋を取得
       security:
         - idToken: []
@@ -39,12 +39,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref:  '#/components/schemas/GetRoomsRes'
-  /rooms/{roomId}:
+                $ref:  '#/components/schemas/GuestsGetRoomsRes'
+  /guests/rooms/{roomId}:
     get:
       tags:
         - rooms
-      operationId: getRoom
+      operationId: guestsGetRoom
       description: 部屋の詳細情報を取得
       security:
         - idToken: []
@@ -61,13 +61,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Room'
-  /reservations:
+                $ref: '#/components/schemas/GuestsRoom'
+  /guests/reservations:
     get:
-#      TODO: 時間でcursor
+      #      TODO: 時間でcursor
       tags:
         - reservations
-      operationId: getReservations
+      operationId: guestsGetReservations
       description: 予約一覧を取得
       security:
         - idToken: []
@@ -77,7 +77,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GetReservationsRes'
+                $ref: '#/components/schemas/GuestsGetReservationsRes'
     post:
       tags:
         - reservations
@@ -98,11 +98,59 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Reservation'
+                $ref: '#/components/schemas/GuestsReservation'
+  /hosts/rooms:
+    get:
+      tags:
+        - rooms
+      operationId: hostsGetRooms
+      description: 自分が掲載している部屋を取得
+      security:
+        - idToken: [ ]
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetRoomsRes'
+    post:
+      tags:
+        - rooms
+      operationId: postRooms
+      description: 新しい部屋を掲載
+      security:
+        - idToken: [ ]
+      requestBody:
+        description: 新しい部屋の掲載リクエスト
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostRoomsReq'
+      responses:
+        204:
+          description: NoContent
+  /hosts/reservations:
+    get:
+      # TODO: 時間でcursor
+      tags:
+        - reservations
+      operationId: hostsGetReservations
+      description: 予約一覧を取得
+      security:
+        - idToken: [ ]
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetReservationsRes'
 
 components:
   schemas:
-    PostUsersReq:
+    GuestsPostUsersReq:
       type: object
       required:
         - user_id
@@ -114,7 +162,7 @@ components:
         name:
           type: string
           example: たなか
-    GetRoomsRes:
+    GuestsGetRoomsRes:
       type: object
       required:
         - rooms
@@ -122,8 +170,8 @@ components:
         rooms:
           type: array
           items:
-            $ref: '#/components/schemas/Room'
-    GetReservationsRes:
+            $ref: '#/components/schemas/GuestsRoom'
+    GuestsGetReservationsRes:
       type: object
       required:
         - reservations
@@ -151,7 +199,7 @@ components:
           type: string
           example: asoiejfl
 
-    Room:
+    GuestsRoom:
       type: object
       required:
         - id
@@ -175,7 +223,7 @@ components:
         host_name:
           type: string
           example: ほんだ
-    Reservation:
+    GuestsReservation:
       type: object
       required:
         - id
@@ -200,3 +248,83 @@ components:
           example: slafdjio
         room_name:
           type: string
+    GetRoomsRes:
+      type: object
+      required:
+        - rooms
+      properties:
+        rooms:
+          type: array
+          items:
+            $ref: '#/components/schemas/Room'
+    PostRoomsReq:
+      type: object
+      required:
+        - name
+        - price
+      properties:
+        name:
+          type: string
+          example: リッツカールトン
+        price:
+          type: integer
+          example: 300000
+    GetReservationsRes:
+      type: object
+      required:
+        - reservations
+      properties:
+        reservations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Reservation'
+    Reservation:
+      type: object
+      required:
+        - id
+        - check_in
+        - check_out
+        - room_id
+        - room_name
+        - guest_id
+        - guest_name
+      properties:
+        id:
+          type: string
+          example: lsakdjfoie
+        check_in:
+          type: string
+          format: date-time
+          example: 2006-01-02T15:04:05Z07:00
+        check_out:
+          type: string
+          format: date-time
+          example: 2006-01-02T15:04:05Z07:00
+        room_id:
+          type: string
+          example: slafdjio
+        room_name:
+          type: string
+          example: リッツカールトン
+        guest_id:
+          type: string
+          example: laskjfoie
+        guest_name:
+          type: string
+          example: きむら
+    Room:
+      type: object
+      required:
+        - id
+        - name
+        - price
+      properties:
+        id:
+          type: string
+          example: laksjdfasdf
+        name:
+          type: string
+          example: リッツカールトン
+        price:
+          type: integer
+          example: 2000000
