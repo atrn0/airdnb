@@ -206,7 +206,6 @@ components:
         - name
         - price
         - host_id
-        - host_name
       properties:
         id:
           type: string
@@ -220,9 +219,6 @@ components:
         host_id:
           type: string
           example: llkajsdfil
-        host_name:
-          type: string
-          example: ほんだ
     GuestsReservation:
       type: object
       required:

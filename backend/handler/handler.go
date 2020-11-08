@@ -1,6 +1,8 @@
 package handler
 
 import (
+	"github.com/jmoiron/sqlx"
+
 	"github.com/atrn0/le4db/handler/guests"
 	"github.com/atrn0/le4db/handler/hosts"
 )
@@ -13,9 +15,9 @@ type Impl struct {
 	hosts.HostsReservationsHandler
 }
 
-func NewHandler() *Impl {
+func NewHandler(db *sqlx.DB) *Impl {
 	return &Impl{
-		guests.NewRoomsHandler(),
+		guests.NewRoomsHandler(db),
 		guests.NewReservationsHandler(),
 		guests.NewUsersHandler(),
 		hosts.NewRoomsHandler(),

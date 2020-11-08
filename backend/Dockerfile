@@ -16,3 +16,5 @@ RUN go build -o /le4db main.go
 RUN go get github.com/cespare/reflex
 
 RUN chmod a+x /le4db
+
+EXPOSE 8080

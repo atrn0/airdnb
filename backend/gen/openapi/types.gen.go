@@ -44,11 +44,10 @@ type GuestsReservation struct {
 
 // GuestsRoom defines model for GuestsRoom.
 type GuestsRoom struct {
-	HostId   string `json:"host_id"`
-	HostName string `json:"host_name"`
-	Id       string `json:"id"`
-	Name     string `json:"name"`
-	Price    int    `json:"price"`
+	HostId string `json:"host_id"`
+	Id     string `json:"id"`
+	Name   string `json:"name"`
+	Price  int    `json:"price"`
 }
 
 // PostReservationsReq defines model for PostReservationsReq.

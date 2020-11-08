@@ -3,11 +3,9 @@ package entity
 import "time"
 
 type Reservation struct {
-	ID       string
-	CheckIn  time.Time
-	CheckOut time.Time
-	RoomID   string
-	Room     Room
-	GuestID  string
-	Guest    Guest
+	ID       string    `db:"id"`
+	CheckIn  time.Time `db:"check_in"`
+	CheckOut time.Time `db:"check_out"`
+	RoomID   string    `db:"room_id"`
+	GuestID  string    `db:"guest_id"`
 }

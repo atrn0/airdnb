@@ -1,10 +1,8 @@
 package entity
 
 type Room struct {
-	ID           string
-	Name         string
-	Price        int
-	HostID       string
-	Host         Host
-	Reservations []Reservation
+	ID     string `db:"id"`
+	Name   string `db:"name"`
+	Price  int    `db:"price"`
+	HostID string `db:"host_id"`
 }

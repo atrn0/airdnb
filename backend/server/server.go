@@ -9,7 +9,7 @@ import (
 
 	oapi "github.com/atrn0/le4db/gen/openapi"
 	"github.com/atrn0/le4db/handler"
-	m "github.com/atrn0/le4db/middleware"
+	"github.com/atrn0/le4db/middleware/auth"
 )
 
 type Server struct {
@@ -25,10 +25,13 @@ func (s *Server) Start() {
 	log.Println("starting server...")
 
 	e := s.e
+	e.Use(middleware.Logger())
 	e.Use(middleware.CORS())
-	e.Use(m.AuthMiddleware)
+	e.Use(auth.AuthMiddleware)
 
-	h := handler.NewHandler()
+	h := handler.NewHandler(s.db)
 
 	oapi.RegisterHandlers(e, h)
+
+	e.Logger.Fatal(e.Start(":8080"))
 }

@@ -5,6 +5,9 @@ BACKEND_OPENAPI_GEN_DIR=backend/gen/openapi
 start-server:
 	docker-compose up --build app postgres
 
+db-upgrade:
+	cat backend/psql/*.sql | psql -h localhost -U le4db
+
 gen:
 	make openapi-gen
 

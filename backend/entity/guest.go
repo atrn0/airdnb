@@ -1,7 +1,6 @@
 package entity
 
 type Guest struct {
-	ID          string
-	Name        string
-	Reservation []Reservation
+	ID   string `db:"id"`
+	Name string `db:"name"`
 }

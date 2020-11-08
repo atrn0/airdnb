@@ -1,6 +1,6 @@
 package entity
 
 type Host struct {
-	ID   string
-	Name string
+	ID   string `db:"id"`
+	Name string `db:"name"`
 }
