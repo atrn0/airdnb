@@ -57,5 +57,17 @@ func (h *RoomsHandlerImpl) GuestsGetRooms(ctx echo.Context) error {
 }
 
 func (h *RoomsHandlerImpl) GuestsGetRoom(ctx echo.Context, roomId string) error {
-	panic("implement me")
+	var room entity.Room
+	err := h.db.Get(&room, "select * from rooms where id = $1", roomId)
+	if err != nil {
+		return ctx.JSON(http.StatusInternalServerError,
+			errors.ErrorRes{Message: "db error"})
+	}
+
+	return ctx.JSON(http.StatusOK, oapi.GuestsRoom{
+		HostId: room.HostID,
+		Id:     room.ID,
+		Name:   room.Name,
+		Price:  room.Price,
+	})
 }
