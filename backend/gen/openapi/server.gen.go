@@ -48,7 +48,7 @@ type ServerInterfaceWrapper struct {
 func (w *ServerInterfaceWrapper) GuestsGetReservations(ctx echo.Context) error {
 	var err error
 
-	ctx.Set("idToken.Scopes", []string{""})
+	ctx.Set("Bearer.Scopes", []string{""})
 
 	// Invoke the callback with all the unmarshalled arguments
 	err = w.Handler.GuestsGetReservations(ctx)
@@ -59,7 +59,7 @@ func (w *ServerInterfaceWrapper) GuestsGetReservations(ctx echo.Context) error {
 func (w *ServerInterfaceWrapper) PostReservations(ctx echo.Context) error {
 	var err error
 
-	ctx.Set("idToken.Scopes", []string{""})
+	ctx.Set("Bearer.Scopes", []string{""})
 
 	// Invoke the callback with all the unmarshalled arguments
 	err = w.Handler.PostReservations(ctx)
@@ -70,7 +70,7 @@ func (w *ServerInterfaceWrapper) PostReservations(ctx echo.Context) error {
 func (w *ServerInterfaceWrapper) GuestsGetRooms(ctx echo.Context) error {
 	var err error
 
-	ctx.Set("idToken.Scopes", []string{""})
+	ctx.Set("Bearer.Scopes", []string{""})
 
 	// Invoke the callback with all the unmarshalled arguments
 	err = w.Handler.GuestsGetRooms(ctx)
@@ -88,7 +88,7 @@ func (w *ServerInterfaceWrapper) GuestsGetRoom(ctx echo.Context) error {
 		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter roomId: %s", err))
 	}
 
-	ctx.Set("idToken.Scopes", []string{""})
+	ctx.Set("Bearer.Scopes", []string{""})
 
 	// Invoke the callback with all the unmarshalled arguments
 	err = w.Handler.GuestsGetRoom(ctx, roomId)
@@ -99,7 +99,7 @@ func (w *ServerInterfaceWrapper) GuestsGetRoom(ctx echo.Context) error {
 func (w *ServerInterfaceWrapper) GuestsPostUsers(ctx echo.Context) error {
 	var err error
 
-	ctx.Set("idToken.Scopes", []string{""})
+	ctx.Set("Bearer.Scopes", []string{""})
 
 	// Invoke the callback with all the unmarshalled arguments
 	err = w.Handler.GuestsPostUsers(ctx)
@@ -110,7 +110,7 @@ func (w *ServerInterfaceWrapper) GuestsPostUsers(ctx echo.Context) error {
 func (w *ServerInterfaceWrapper) HostsGetReservations(ctx echo.Context) error {
 	var err error
 
-	ctx.Set("idToken.Scopes", []string{""})
+	ctx.Set("Bearer.Scopes", []string{""})
 
 	// Invoke the callback with all the unmarshalled arguments
 	err = w.Handler.HostsGetReservations(ctx)
@@ -121,7 +121,7 @@ func (w *ServerInterfaceWrapper) HostsGetReservations(ctx echo.Context) error {
 func (w *ServerInterfaceWrapper) HostsGetRooms(ctx echo.Context) error {
 	var err error
 
-	ctx.Set("idToken.Scopes", []string{""})
+	ctx.Set("Bearer.Scopes", []string{""})
 
 	// Invoke the callback with all the unmarshalled arguments
 	err = w.Handler.HostsGetRooms(ctx)
@@ -132,7 +132,7 @@ func (w *ServerInterfaceWrapper) HostsGetRooms(ctx echo.Context) error {
 func (w *ServerInterfaceWrapper) PostRooms(ctx echo.Context) error {
 	var err error
 
-	ctx.Set("idToken.Scopes", []string{""})
+	ctx.Set("Bearer.Scopes", []string{""})
 
 	// Invoke the callback with all the unmarshalled arguments
 	err = w.Handler.PostRooms(ctx)

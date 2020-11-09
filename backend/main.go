@@ -18,5 +18,5 @@ func main() {
 	}
 
 	s := server.NewServer(db)
-	s.Start()
+	log.Fatalln(s.Start())
 }

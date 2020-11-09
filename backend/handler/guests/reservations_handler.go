@@ -5,6 +5,7 @@ import (
 
 	"github.com/jmoiron/sqlx"
 	"github.com/labstack/echo/v4"
+	"github.com/rs/xid"
 
 	"github.com/atrn0/le4db/entity"
 	oapi "github.com/atrn0/le4db/gen/openapi"
@@ -63,6 +64,45 @@ func (h *ReservationsHandlerImpl) GuestsGetReservations(ctx echo.Context) error 
 		})
 }
 
-func (r *ReservationsHandlerImpl) PostReservations(ctx echo.Context) error {
-	panic("implement me")
+func (h *ReservationsHandlerImpl) PostReservations(ctx echo.Context) error {
+	userId := auth.GetUserId(ctx)
+	if userId == "" {
+		return ctx.JSON(
+			http.StatusBadRequest,
+			errors.ErrorRes{Message: "userId is required"},
+		)
+	}
+
+	req := new(oapi.PostReservationsReq)
+	if err := ctx.Bind(req); err != nil {
+		return ctx.JSON(
+			http.StatusBadRequest,
+			errors.ErrorRes{Message: err.Error()},
+		)
+	}
+
+	reservationCreate := entity.ReservationCreate{
+		ID:       xid.New().String(),
+		CheckIn:  req.CheckIn,
+		CheckOut: req.CheckOut,
+		RoomID:   req.RoomId,
+		GuestID:  userId,
+	}
+
+	_, err := h.db.NamedExec(`
+		INSERT INTO reservations (id, check_in, check_out, room_id, guest_id)
+		VALUES (:id, :check_in, :check_out, :room_id, :guest_id)
+		`, reservationCreate)
+
+	if err != nil {
+		return ctx.JSON(http.StatusInternalServerError,
+			errors.ErrorRes{Message: err.Error()})
+	}
+
+	return ctx.JSON(http.StatusCreated, oapi.GuestsReservation{
+		Id:       reservationCreate.ID,
+		CheckIn:  reservationCreate.CheckIn,
+		CheckOut: reservationCreate.CheckOut,
+		RoomId:   reservationCreate.RoomID,
+	})
 }

@@ -13,7 +13,7 @@ paths:
       operationId: guestsPostUsers
       description: 新しいユーザー(ゲスト)を作成
       security:
-        - idToken: []
+        - Bearer: []
       requestBody:
         description: 新しいユーザーの作成リクエスト
         required: true
@@ -32,7 +32,7 @@ paths:
       operationId: guestsGetRooms
       description: 部屋を取得
       security:
-        - idToken: []
+        - Bearer: []
       responses:
         200:
           description: OK
@@ -47,7 +47,7 @@ paths:
       operationId: guestsGetRoom
       description: 部屋の詳細情報を取得
       security:
-        - idToken: []
+        - Bearer: []
       parameters:
         - in: path
           name: roomId
@@ -70,7 +70,7 @@ paths:
       operationId: guestsGetReservations
       description: 予約一覧を取得
       security:
-        - idToken: []
+        - Bearer: []
       responses:
         200:
           description: OK
@@ -84,7 +84,7 @@ paths:
       operationId: postReservations
       description: 新しい予約
       security:
-        - idToken: []
+        - Bearer: []
       requestBody:
         description: 新しい予約リクエスト
         required: true
@@ -106,7 +106,7 @@ paths:
       operationId: hostsGetRooms
       description: 自分が掲載している部屋を取得
       security:
-        - idToken: [ ]
+        - Bearer: [ ]
       responses:
         200:
           description: OK
@@ -120,7 +120,7 @@ paths:
       operationId: postRooms
       description: 新しい部屋を掲載
       security:
-        - idToken: [ ]
+        - Bearer: [ ]
       requestBody:
         description: 新しい部屋の掲載リクエスト
         required: true
@@ -139,7 +139,7 @@ paths:
       operationId: hostsGetReservations
       description: 予約一覧を取得
       security:
-        - idToken: [ ]
+        - Bearer: [ ]
       responses:
         200:
           description: OK
@@ -324,3 +324,8 @@ components:
         price:
           type: integer
           example: 2000000
+  securitySchemes:
+    Bearer:
+      type: http
+      scheme: bearer
+      description: Credentials or access token for API
