@@ -5,6 +5,7 @@ import (
 
 	"github.com/jmoiron/sqlx"
 	"github.com/labstack/echo/v4"
+	"github.com/rs/xid"
 
 	"github.com/atrn0/le4db/entity"
 	oapi "github.com/atrn0/le4db/gen/openapi"
@@ -59,6 +60,39 @@ func (h *RoomsHandlerImpl) HostsGetRooms(ctx echo.Context) error {
 	})
 }
 
-func (r RoomsHandlerImpl) PostRooms(ctx echo.Context) error {
-	panic("implement me")
+func (h *RoomsHandlerImpl) PostRooms(ctx echo.Context) error {
+	userId := auth.GetUserId(ctx)
+	if userId == "" {
+		return ctx.JSON(
+			http.StatusBadRequest,
+			errors.ErrorRes{Message: "userId is required"},
+		)
+	}
+
+	req := new(oapi.PostRoomsReq)
+	if err := ctx.Bind(req); err != nil {
+		return ctx.JSON(
+			http.StatusBadRequest,
+			errors.ErrorRes{Message: err.Error()},
+		)
+	}
+
+	roomCreate := entity.Room{
+		ID:     xid.New().String(),
+		Name:   req.Name,
+		Price:  req.Price,
+		HostID: userId,
+	}
+
+	_, err := h.db.NamedExec(`
+	INSERT INTO rooms (id, name, price, host_id) 
+	VALUES (:id, :name, :price, :host_id) 
+	`, roomCreate)
+
+	if err != nil {
+		return ctx.JSON(http.StatusInternalServerError,
+			errors.ErrorRes{Message: err.Error()})
+	}
+
+	return ctx.NoContent(http.StatusNoContent)
 }
