@@ -7,11 +7,6 @@ import (
 	"time"
 )
 
-// GetRoomsRes defines model for GetRoomsRes.
-type GetRoomsRes struct {
-	Rooms []Room `json:"rooms"`
-}
-
 // GuestsGetReservationsRes defines model for GuestsGetReservationsRes.
 type GuestsGetReservationsRes struct {
 	Reservations []GuestsReservation `json:"reservations"`
@@ -50,6 +45,11 @@ type HostsGetReservationsRes struct {
 	Reservations []HostsReservation `json:"reservations"`
 }
 
+// HostsGetRoomsRes defines model for HostsGetRoomsRes.
+type HostsGetRoomsRes struct {
+	Rooms []HostsRoom `json:"rooms"`
+}
+
 // HostsReservation defines model for HostsReservation.
 type HostsReservation struct {
 	CheckIn   time.Time `json:"check_in"`
@@ -61,6 +61,13 @@ type HostsReservation struct {
 	RoomName  string    `json:"room_name"`
 }
 
+// HostsRoom defines model for HostsRoom.
+type HostsRoom struct {
+	Id    string `json:"id"`
+	Name  string `json:"name"`
+	Price int    `json:"price"`
+}
+
 // PostReservationsReq defines model for PostReservationsReq.
 type PostReservationsReq struct {
 	CheckIn  time.Time `json:"check_in"`
@@ -70,13 +77,6 @@ type PostReservationsReq struct {
 
 // PostRoomsReq defines model for PostRoomsReq.
 type PostRoomsReq struct {
-	Name  string `json:"name"`
-	Price int    `json:"price"`
-}
-
-// Room defines model for Room.
-type Room struct {
-	Id    string `json:"id"`
 	Name  string `json:"name"`
 	Price int    `json:"price"`
 }

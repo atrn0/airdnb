@@ -113,7 +113,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GetRoomsRes'
+                $ref: '#/components/schemas/HostsGetRoomsRes'
     post:
       tags:
         - rooms
@@ -244,7 +244,7 @@ components:
           example: slafdjio
         room_name:
           type: string
-    GetRoomsRes:
+    HostsGetRoomsRes:
       type: object
       required:
         - rooms
@@ -252,7 +252,7 @@ components:
         rooms:
           type: array
           items:
-            $ref: '#/components/schemas/Room'
+            $ref: '#/components/schemas/HostsRoom'
     PostRoomsReq:
       type: object
       required:
@@ -308,7 +308,7 @@ components:
         guest_name:
           type: string
           example: きむら
-    Room:
+    HostsRoom:
       type: object
       required:
         - id
