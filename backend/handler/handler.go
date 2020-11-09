@@ -19,7 +19,7 @@ func NewHandler(db *sqlx.DB) *Impl {
 	return &Impl{
 		guests.NewRoomsHandler(db),
 		guests.NewReservationsHandler(db),
-		guests.NewUsersHandler(),
+		guests.NewUsersHandler(db),
 		hosts.NewRoomsHandler(),
 		hosts.NewReservationsHandler(),
 	}
