@@ -57,6 +57,14 @@ func (h *RoomsHandlerImpl) GuestsGetRooms(ctx echo.Context) error {
 }
 
 func (h *RoomsHandlerImpl) GuestsGetRoom(ctx echo.Context, roomId string) error {
+	userId := auth.GetUserId(ctx)
+	if userId == "" {
+		return ctx.JSON(
+			http.StatusBadRequest,
+			errors.ErrorRes{Message: "userId is required"},
+		)
+	}
+
 	var room entity.Room
 	err := h.db.Get(&room, "select * from rooms where id = $1", roomId)
 	if err != nil {

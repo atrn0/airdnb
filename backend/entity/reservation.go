@@ -9,3 +9,8 @@ type Reservation struct {
 	RoomID   string    `db:"room_id"`
 	GuestID  string    `db:"guest_id"`
 }
+
+type ReservationWithRoomName struct {
+	Reservation
+	RoomName string `db:"room_name"`
+}

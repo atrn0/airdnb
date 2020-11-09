@@ -18,7 +18,7 @@ type Impl struct {
 func NewHandler(db *sqlx.DB) *Impl {
 	return &Impl{
 		guests.NewRoomsHandler(db),
-		guests.NewReservationsHandler(),
+		guests.NewReservationsHandler(db),
 		guests.NewUsersHandler(),
 		hosts.NewRoomsHandler(),
 		hosts.NewReservationsHandler(),

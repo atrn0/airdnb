@@ -19,7 +19,7 @@ type GetRoomsRes struct {
 
 // GuestsGetReservationsRes defines model for GuestsGetReservationsRes.
 type GuestsGetReservationsRes struct {
-	Reservations []Reservation `json:"reservations"`
+	Reservations []GuestsReservation `json:"reservations"`
 }
 
 // GuestsGetRoomsRes defines model for GuestsGetRoomsRes.
