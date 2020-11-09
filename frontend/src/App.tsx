@@ -1,14 +1,16 @@
 import React from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
-import './App.css'
+import { Login } from './components/Login'
 
-const App = () => {
+const App: React.FC = () => {
   return (
-    <div className="App">
-      <header className="App-header">header</header>
+    <div>
+      <header>header</header>
       <BrowserRouter>
         <Switch>
-          <Route exact path="/"></Route>
+          <Route exact path="/">
+            <Login />
+          </Route>
         </Switch>
       </BrowserRouter>
     </div>
