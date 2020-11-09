@@ -15,4 +15,9 @@ type ReservationWithRoomName struct {
 	RoomName string `db:"room_name"`
 }
 
+type ReservationWithRoomNameAndGuestName struct {
+	ReservationWithRoomName
+	GuestName string `db:"guest_name"`
+}
+
 type ReservationCreate = Reservation

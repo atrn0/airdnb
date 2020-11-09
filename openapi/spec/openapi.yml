@@ -146,7 +146,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GetReservationsRes'
+                $ref: '#/components/schemas/HostsGetReservationsRes'
 
 components:
   schemas:
@@ -265,7 +265,7 @@ components:
         price:
           type: integer
           example: 300000
-    GetReservationsRes:
+    HostsGetReservationsRes:
       type: object
       required:
         - reservations
@@ -273,8 +273,8 @@ components:
         reservations:
           type: array
           items:
-            $ref: '#/components/schemas/Reservation'
-    Reservation:
+            $ref: '#/components/schemas/HostsReservation'
+    HostsReservation:
       type: object
       required:
         - id

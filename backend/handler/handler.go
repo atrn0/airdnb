@@ -21,6 +21,6 @@ func NewHandler(db *sqlx.DB) *Impl {
 		guests.NewReservationsHandler(db),
 		guests.NewUsersHandler(db),
 		hosts.NewRoomsHandler(),
-		hosts.NewReservationsHandler(),
+		hosts.NewReservationsHandler(db),
 	}
 }
