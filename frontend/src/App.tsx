@@ -1,29 +1,33 @@
 import React from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import { Login } from './components/Login'
-import { GuestRooms } from './components/guests/rooms/Index'
+import { GuestsRooms } from './components/guests/rooms/Index'
 import { AuthProvider } from './contexts/authContext'
 import { GuestsRoomDetail } from './components/guests/rooms/Room'
 import { MuiPickersUtilsProvider } from '@material-ui/pickers'
 import DayjsUtils from '@date-io/dayjs'
 import { Header } from './components/molecules/Header'
+import { GuestsReservations } from './components/guests/reservations/Index'
 
 const App: React.FC = () => {
   return (
     <div>
       <MuiPickersUtilsProvider utils={DayjsUtils}>
         <AuthProvider>
-          <Header />
           <BrowserRouter>
+            <Header />
             <Switch>
               <Route exact path="/">
                 <Login />
               </Route>
               <Route exact path="/guests/rooms">
-                <GuestRooms />
+                <GuestsRooms />
               </Route>
               <Route exaxt path="/guests/rooms/:roomId">
                 <GuestsRoomDetail />
+              </Route>
+              <Route exact path="/guests/reservations">
+                <GuestsReservations />
               </Route>
             </Switch>
           </BrowserRouter>

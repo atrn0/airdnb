@@ -3,7 +3,7 @@ import { Link, useHistory } from 'react-router-dom'
 import { AuthContext } from '../../../contexts/authContext'
 import { useGuestsRooms } from '../../../hooks/useGuestsRooms'
 
-export const GuestRooms: React.FC = () => {
+export const GuestsRooms: React.FC = () => {
   const { getGuestId, loggedInAsGuest } = useContext(AuthContext)
   const history = useHistory()
 

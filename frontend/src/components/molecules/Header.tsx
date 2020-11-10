@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import {
   AppBar,
   Drawer,
-  DrawerProps,
   IconButton,
   List,
   ListItem,
@@ -13,6 +12,7 @@ import {
 } from '@material-ui/core'
 import MenuIcon from '@material-ui/icons/Menu'
 import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 
 const StyledSpacer = styled.div`
   flex-grow: 1;
@@ -42,7 +42,7 @@ export const Header: React.FC = () => {
         onClose={() => setOpenDrawer(false)}
       >
         <StyledList>
-          <ListItem button>
+          <ListItem button component={Link} to="/guests/reservations">
             <ListItemText primary="予約一覧" />
           </ListItem>
           <ListItem button>
