@@ -1,18 +1,25 @@
 import { useState, useCallback, useContext } from 'react'
 import { AuthContext } from '../contexts/authContext'
 import { GuestsRoom, GuestsRoomsApi } from '../gen/openapi/api'
+import { config } from '../config'
 
 const api = (token: string) =>
-  new GuestsRoomsApi({ basePath: 'http://localhost:8080', accessToken: token })
+  new GuestsRoomsApi({ basePath: config.apiBasePath, accessToken: token })
 
-export const useGuestsRoooms = () => {
+export const useGuestsRooms = () => {
   const [rooms, setRooms] = useState<GuestsRoom[]>([])
-  const { guestId } = useContext(AuthContext)
+  const [room, setRoom] = useState<GuestsRoom | null>()
+  const { getGuestId } = useContext(AuthContext)
 
   const fetchRooms = useCallback(async () => {
-    const res = await api(guestId).guestsGetRooms()
+    const res = await api(getGuestId()).guestsGetRooms()
     setRooms(res.data.rooms)
-  }, [guestId])
+  }, [getGuestId])
 
-  return { rooms, fetchRooms }
+  const fetchRoom = useCallback(async (roomId: string) => {
+    const res = await api(getGuestId()).guestsGetRoom(roomId)
+    setRoom(res.data)
+  }, [getGuestId])
+
+  return { rooms, fetchRooms, room, fetchRoom }
 }

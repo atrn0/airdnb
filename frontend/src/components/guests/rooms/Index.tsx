@@ -1,23 +1,23 @@
 import React, { useContext, useEffect } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import { AuthContext } from '../../../contexts/authContext'
-import { useGuestsRoooms } from '../../../hooks/useGuestsRooms'
+import { useGuestsRooms } from '../../../hooks/useGuestsRooms'
 
 export const GuestRooms: React.FC = () => {
-  const { guestId, loggedInAsGuest } = useContext(AuthContext)
+  const { getGuestId, loggedInAsGuest } = useContext(AuthContext)
   const history = useHistory()
 
-  const { rooms, fetchRooms } = useGuestsRoooms()
+  const { rooms, fetchRooms } = useGuestsRooms()
 
   useEffect(() => {
     if (!loggedInAsGuest()) {
       history.replace('/')
       return
     }
-    if (guestId) {
+    if (getGuestId()) {
       fetchRooms()
     }
-  }, [fetchRooms, guestId, history, loggedInAsGuest])
+  }, [fetchRooms, getGuestId, history, loggedInAsGuest])
 
   return (
     <>

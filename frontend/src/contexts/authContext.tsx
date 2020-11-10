@@ -3,7 +3,7 @@ import { useGuest } from '../hooks/useGuest'
 import { useHost } from '../hooks/useHost'
 
 type AuthInfo = {
-  guestId?: string
+  getGuestId?: () => string
   loginAsGuest?: (guestId: string) => void
   loggedInAsGuest?: () => boolean
   hostId?: string
@@ -14,13 +14,13 @@ type AuthInfo = {
 export const AuthContext = React.createContext<AuthInfo>({})
 
 export const AuthProvider: React.FC = (props) => {
-  const { guestId, loginAsGuest, loggedInAsGuest } = useGuest()
+  const { getGuestId, loginAsGuest, loggedInAsGuest } = useGuest()
   const { hostId, loginAsHost } = useHost()
 
   return (
     <AuthContext.Provider
       value={{
-        guestId,
+        getGuestId,
         loginAsGuest,
         hostId,
         loginAsHost,
