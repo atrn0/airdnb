@@ -6,19 +6,15 @@ import { AuthContext } from '../../../contexts/authContext'
 import { useGuestsReservations } from '../../../hooks/useGuestsReservations'
 
 export const GuestsReservations: React.FC = () => {
-  const { getGuestId, loggedInAsGuest } = useContext(AuthContext)
+  const { loggedInAsGuest } = useContext(AuthContext)
   const { reservations, fetchReservations } = useGuestsReservations()
   const history = useHistory()
 
   useEffect(() => {
-    if (!loggedInAsGuest()) {
-      history.replace('/')
-      return
-    }
-    if (getGuestId()) {
+    if (loggedInAsGuest()) {
       fetchReservations()
     }
-  }, [fetchReservations, getGuestId, history, loggedInAsGuest])
+  }, [fetchReservations, history, loggedInAsGuest])
 
   return (
     <>

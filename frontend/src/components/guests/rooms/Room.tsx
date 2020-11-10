@@ -26,11 +26,9 @@ export const GuestsRoomDetail: React.FC = () => {
   }, [checkIn, checkOut, createReservation, roomId])
 
   useEffect(() => {
-    if (!loggedInAsGuest()) {
-      history.replace('/')
-      return
+    if (loggedInAsGuest()) {
+      fetchRoom(roomId)
     }
-    fetchRoom(roomId)
   }, [fetchRoom, history, loggedInAsGuest, roomId])
 
   if (!room) {

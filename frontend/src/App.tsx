@@ -9,6 +9,8 @@ import DayjsUtils from '@date-io/dayjs'
 import { Header } from './components/molecules/Header'
 import { GuestsReservations } from './components/guests/reservations/Index'
 import { HostsRooms } from './components/hosts/rooms/Index'
+import { GuestsWrapper } from './components/guests/Wrapper'
+import { HostsWrapper } from './components/hosts/Wrapper'
 
 const App: React.FC = () => {
   return (
@@ -22,16 +24,24 @@ const App: React.FC = () => {
                 <Login />
               </Route>
               <Route exact path="/guests/rooms">
-                <GuestsRooms />
+                <GuestsWrapper>
+                  <GuestsRooms />
+                </GuestsWrapper>
               </Route>
               <Route exaxt path="/guests/rooms/:roomId">
-                <GuestsRoomDetail />
+                <GuestsWrapper>
+                  <GuestsRoomDetail />
+                </GuestsWrapper>
               </Route>
               <Route exact path="/guests/reservations">
-                <GuestsReservations />
+                <GuestsWrapper>
+                  <GuestsReservations />
+                </GuestsWrapper>
               </Route>
               <Route exact path="/hosts/rooms">
-                <HostsRooms />
+                <HostsWrapper>
+                  <HostsRooms />
+                </HostsWrapper>
               </Route>
             </Switch>
           </BrowserRouter>

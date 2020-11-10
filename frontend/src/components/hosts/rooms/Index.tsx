@@ -7,17 +7,14 @@ import React from 'react'
 
 export const HostsRooms: React.FC = () => {
   const { rooms, fetchRooms } = useHostsRooms()
-  const { getHostId, loggedInAsHost } = useContext(AuthContext)
+  const { getHostId } = useContext(AuthContext)
   const history = useHistory()
 
   useEffect(() => {
-    if (!loggedInAsHost) {
-      history.replace('/')
-    }
     if (getHostId()) {
       fetchRooms()
     }
-  }, [fetchRooms, getHostId, history, loggedInAsHost])
+  }, [fetchRooms, getHostId, history])
 
   return (
     <>

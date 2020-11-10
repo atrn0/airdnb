@@ -4,20 +4,16 @@ import { AuthContext } from '../../../contexts/authContext'
 import { useGuestsRooms } from '../../../hooks/useGuestsRooms'
 
 export const GuestsRooms: React.FC = () => {
-  const { getGuestId, loggedInAsGuest } = useContext(AuthContext)
+  const { getGuestId } = useContext(AuthContext)
   const history = useHistory()
 
   const { rooms, fetchRooms } = useGuestsRooms()
 
   useEffect(() => {
-    if (!loggedInAsGuest()) {
-      history.replace('/')
-      return
-    }
     if (getGuestId()) {
       fetchRooms()
     }
-  }, [fetchRooms, getGuestId, history, loggedInAsGuest])
+  }, [fetchRooms, getGuestId, history])
 
   return (
     <>

@@ -6,9 +6,9 @@ export const useHost = () => {
     Cookies.set('host_id', hostId)
   }
 
-  const loggedInAsHost = useCallback(() => {
+  const loggedInAsHost = () => {
     return !!Cookies.get('host_id')
-  }, [])
+  }
 
   const getHostId = useCallback(() => {
     return Cookies.get('host_id') || ''

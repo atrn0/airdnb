@@ -26,7 +26,7 @@ const StyledList = styled((props: ListProps) => <List {...props} />)`
 
 export const Header: React.FC = () => {
   const [isOpenDrawer, setOpenDrawer] = useState(false)
-  const { logoutGuest } = useContext(AuthContext)
+  const { logoutGuest, logoutHost, loggedInAsGuest } = useContext(AuthContext)
   const history = useHistory()
 
   return (
@@ -46,7 +46,11 @@ export const Header: React.FC = () => {
         onClose={() => setOpenDrawer(false)}
       >
         <StyledList>
-          <ListItem button component={Link} to="/guests/reservations">
+          <ListItem
+            button
+            component={Link}
+            to={`/${loggedInAsGuest() ? 'guests' : 'hosts'}/reservations`}
+          >
             <ListItemText primary="予約一覧" />
           </ListItem>
           <ListItem
@@ -54,6 +58,7 @@ export const Header: React.FC = () => {
             component={Button}
             onClick={() => {
               logoutGuest()
+              logoutHost()
               history.push('/')
             }}
           >
