@@ -58,5 +58,5 @@ func (h *ReservationsHandlerImpl) HostsGetReservations(ctx echo.Context) error {
 		})
 	}
 
-	return ctx.JSON(http.StatusOK, &reservationsRes)
+	return ctx.JSON(http.StatusOK, &oapi.HostsGetReservationsRes{Reservations: reservationsRes})
 }

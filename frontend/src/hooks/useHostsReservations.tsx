@@ -1,11 +1,7 @@
 import { useCallback, useContext, useState } from 'react'
 import { config } from '../config'
 import { AuthContext } from '../contexts/authContext'
-import {
-  HostsReservation,
-  HostsReservationsApi,
-  PostReservationsReq,
-} from '../gen/openapi/api'
+import { HostsReservation, HostsReservationsApi } from '../gen/openapi/api'
 
 const api = (token: string) =>
   new HostsReservationsApi({
@@ -19,7 +15,6 @@ export const useHostsReservations = () => {
 
   const fetchReservations = useCallback(async () => {
     const res = await api(getHostId()).hostsGetReservations()
-    console.log(res.data.reservations)
     setReservations(res.data.reservations)
   }, [getHostId])
 

@@ -8,13 +8,12 @@ import { useGuestsReservations } from '../../../hooks/useGuestsReservations'
 export const GuestsReservations: React.FC = () => {
   const { loggedInAsGuest } = useContext(AuthContext)
   const { reservations, fetchReservations } = useGuestsReservations()
-  const history = useHistory()
 
   useEffect(() => {
     if (loggedInAsGuest()) {
       fetchReservations()
     }
-  }, [fetchReservations, history, loggedInAsGuest])
+  }, [fetchReservations, loggedInAsGuest])
 
   return (
     <>

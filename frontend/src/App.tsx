@@ -11,6 +11,7 @@ import { GuestsReservations } from './components/guests/reservations/Index'
 import { HostsRooms } from './components/hosts/rooms/Index'
 import { GuestsWrapper } from './components/guests/Wrapper'
 import { HostsWrapper } from './components/hosts/Wrapper'
+import { HostsReservations } from './components/hosts/reservations/Index'
 
 const App: React.FC = () => {
   return (
@@ -41,6 +42,11 @@ const App: React.FC = () => {
               <Route exact path="/hosts/rooms">
                 <HostsWrapper>
                   <HostsRooms />
+                </HostsWrapper>
+              </Route>
+              <Route exact path="/hosts/reservations">
+                <HostsWrapper>
+                  <HostsReservations />
                 </HostsWrapper>
               </Route>
             </Switch>
