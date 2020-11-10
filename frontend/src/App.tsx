@@ -8,6 +8,7 @@ import { MuiPickersUtilsProvider } from '@material-ui/pickers'
 import DayjsUtils from '@date-io/dayjs'
 import { Header } from './components/molecules/Header'
 import { GuestsReservations } from './components/guests/reservations/Index'
+import { HostsRooms } from './components/hosts/rooms/Index'
 
 const App: React.FC = () => {
   return (
@@ -28,6 +29,9 @@ const App: React.FC = () => {
               </Route>
               <Route exact path="/guests/reservations">
                 <GuestsReservations />
+              </Route>
+              <Route exact path="/hosts/rooms">
+                <HostsRooms />
               </Route>
             </Switch>
           </BrowserRouter>

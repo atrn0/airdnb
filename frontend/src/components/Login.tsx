@@ -1,7 +1,8 @@
 import { Button, TextField } from '@material-ui/core'
+import { ButtonProps } from '@material-ui/core/Button/Button'
 import React, { useContext, useState } from 'react'
 import { useCallback } from 'react'
-import { useHistory } from 'react-router-dom'
+import { Link, LinkProps } from 'react-router-dom'
 import styled from 'styled-components'
 import { AuthContext } from '../contexts/authContext'
 
@@ -11,7 +12,9 @@ const StyledContainer = styled.div`
   align-items: center;
 `
 
-const StyledButton = styled(({ ...others }) => <Button {...others} />)`
+const StyledButton = styled((props: LinkProps & ButtonProps) => (
+  <Button component={Link} {...props} />
+))`
   &.MuiButtonBase-root {
     margin-top: 20px;
   }
@@ -19,8 +22,7 @@ const StyledButton = styled(({ ...others }) => <Button {...others} />)`
 
 export const Login: React.FC = () => {
   const [userId, setUserId] = useState('')
-  const { loginAsGuest } = useContext(AuthContext)
-  const history = useHistory()
+  const { loginAsGuest, loginAsHost } = useContext(AuthContext)
 
   const onUserIdChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -31,8 +33,11 @@ export const Login: React.FC = () => {
 
   const handleLoginAsGuest = useCallback(() => {
     loginAsGuest && loginAsGuest(userId)
-    history.push('/guests/rooms')
-  }, [history, loginAsGuest, userId])
+  }, [loginAsGuest, userId])
+
+  const handleLoginAsHost = useCallback(() => {
+    loginAsHost && loginAsHost(userId)
+  }, [loginAsHost, userId])
 
   return (
     <StyledContainer>
@@ -42,10 +47,16 @@ export const Login: React.FC = () => {
         value={userId}
         onChange={onUserIdChange}
       />
-      <StyledButton variant="contained" to="/hosts/rooms" disabled={!userId}>
+      <StyledButton
+        variant="contained"
+        to="/hosts/rooms"
+        disabled={!userId}
+        onClick={handleLoginAsHost}
+      >
         ホストとしてログイン
       </StyledButton>
       <StyledButton
+        to="guests/rooms"
         variant="contained"
         disabled={!userId}
         onClick={handleLoginAsGuest}
