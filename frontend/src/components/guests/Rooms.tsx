@@ -8,7 +8,7 @@ export const GuestRooms: React.FC = () => {
 
   useEffect(() => {
     if (guestId === '') {
-      history.push('/')
+      history.replace('/')
     }
   }, [guestId, history])
 

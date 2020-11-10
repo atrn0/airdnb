@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import Cookies from 'js-cookie'
 
-const useHost = () => {
+export const useHost = () => {
   const [hostId, setHostId] = useState('')
 
   useEffect(() => {
