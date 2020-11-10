@@ -1,5 +1,5 @@
 import Cookies from 'js-cookie'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 export const useGuest = () => {
   const [guestId, setGuestId] = useState('')
@@ -8,10 +8,14 @@ export const useGuest = () => {
     setGuestId(Cookies.get('guest_id') || '')
   }, [])
 
-  const loginAsGuest = (guestId: string) => {
+  const loginAsGuest = useCallback((guestId: string) => {
     Cookies.set('guest_id', guestId)
     setGuestId(Cookies.get('guest_id') || '')
-  }
+  }, [])
 
-  return { guestId, loginAsGuest }
+  const loggedInAsGuest = useCallback(() => {
+    return !!Cookies.get('guest_id')
+  }, [])
+
+  return { guestId, loginAsGuest, loggedInAsGuest }
 }

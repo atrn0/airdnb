@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: airdnb API
-  version: "1"
+  version: '1'
 servers:
   - url: http://localhost:8080/v1
     description: API
@@ -9,7 +9,7 @@ paths:
   /guests/users:
     post:
       tags:
-        - users
+        - guestsUsers
       operationId: guestsPostUsers
       description: 新しいユーザー(ゲスト)を作成
       security:
@@ -28,7 +28,7 @@ paths:
     get:
       #      TODO: 検索クエリを追加
       tags:
-        - rooms
+        - guestsRooms
       operationId: guestsGetRooms
       description: 部屋を取得
       security:
@@ -39,11 +39,11 @@ paths:
           content:
             application/json:
               schema:
-                $ref:  '#/components/schemas/GuestsGetRoomsRes'
+                $ref: '#/components/schemas/GuestsGetRoomsRes'
   /guests/rooms/{roomId}:
     get:
       tags:
-        - rooms
+        - guestsRooms
       operationId: guestsGetRoom
       description: 部屋の詳細情報を取得
       security:
@@ -66,7 +66,7 @@ paths:
     get:
       #      TODO: 時間でcursor
       tags:
-        - reservations
+        - guestsReservations
       operationId: guestsGetReservations
       description: 予約一覧を取得
       security:
@@ -80,7 +80,7 @@ paths:
                 $ref: '#/components/schemas/GuestsGetReservationsRes'
     post:
       tags:
-        - reservations
+        - guestsReservations
       operationId: postReservations
       description: 新しい予約
       security:
@@ -102,11 +102,11 @@ paths:
   /hosts/rooms:
     get:
       tags:
-        - rooms
+        - hostsRooms
       operationId: hostsGetRooms
       description: 自分が掲載している部屋を取得
       security:
-        - Bearer: [ ]
+        - Bearer: []
       responses:
         200:
           description: OK
@@ -116,11 +116,11 @@ paths:
                 $ref: '#/components/schemas/HostsGetRoomsRes'
     post:
       tags:
-        - rooms
+        - hostsRooms
       operationId: postRooms
       description: 新しい部屋を掲載
       security:
-        - Bearer: [ ]
+        - Bearer: []
       requestBody:
         description: 新しい部屋の掲載リクエスト
         required: true
@@ -135,11 +135,11 @@ paths:
     get:
       # TODO: 時間でcursor
       tags:
-        - reservations
+        - hostsReservations
       operationId: hostsGetReservations
       description: 予約一覧を取得
       security:
-        - Bearer: [ ]
+        - Bearer: []
       responses:
         200:
           description: OK
