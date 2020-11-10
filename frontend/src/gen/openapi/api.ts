@@ -161,6 +161,25 @@ export interface HostsGetRoomsRes {
 /**
  * 
  * @export
+ * @interface HostsPostRoomsReq
+ */
+export interface HostsPostRoomsReq {
+    /**
+     * 
+     * @type {string}
+     * @memberof HostsPostRoomsReq
+     */
+    name: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof HostsPostRoomsReq
+     */
+    price: number;
+}
+/**
+ * 
+ * @export
  * @interface HostsReservation
  */
 export interface HostsReservation {
@@ -256,25 +275,6 @@ export interface PostReservationsReq {
      * @memberof PostReservationsReq
      */
     room_id: string;
-}
-/**
- * 
- * @export
- * @interface PostRoomsReq
- */
-export interface PostRoomsReq {
-    /**
-     * 
-     * @type {string}
-     * @memberof PostRoomsReq
-     */
-    name: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof PostRoomsReq
-     */
-    price: number;
 }
 
 /**
@@ -912,14 +912,14 @@ export const HostsRoomsApiAxiosParamCreator = function (configuration?: Configur
         },
         /**
          * 新しい部屋を掲載
-         * @param {PostRoomsReq} postRoomsReq 新しい部屋の掲載リクエスト
+         * @param {HostsPostRoomsReq} hostsPostRoomsReq 新しい部屋の掲載リクエスト
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        postRooms: async (postRoomsReq: PostRoomsReq, options: any = {}): Promise<RequestArgs> => {
-            // verify required parameter 'postRoomsReq' is not null or undefined
-            if (postRoomsReq === null || postRoomsReq === undefined) {
-                throw new RequiredError('postRoomsReq','Required parameter postRoomsReq was null or undefined when calling postRooms.');
+        hostsPostRooms: async (hostsPostRoomsReq: HostsPostRoomsReq, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'hostsPostRoomsReq' is not null or undefined
+            if (hostsPostRoomsReq === null || hostsPostRoomsReq === undefined) {
+                throw new RequiredError('hostsPostRoomsReq','Required parameter hostsPostRoomsReq was null or undefined when calling hostsPostRooms.');
             }
             const localVarPath = `/hosts/rooms`;
             const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
@@ -949,8 +949,8 @@ export const HostsRoomsApiAxiosParamCreator = function (configuration?: Configur
             delete localVarUrlObj.search;
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            const needsSerialization = (typeof postRoomsReq !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(postRoomsReq !== undefined ? postRoomsReq : {}) : (postRoomsReq || "");
+            const needsSerialization = (typeof hostsPostRoomsReq !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(hostsPostRoomsReq !== undefined ? hostsPostRoomsReq : {}) : (hostsPostRoomsReq || "");
 
             return {
                 url: globalImportUrl.format(localVarUrlObj),
@@ -980,12 +980,12 @@ export const HostsRoomsApiFp = function(configuration?: Configuration) {
         },
         /**
          * 新しい部屋を掲載
-         * @param {PostRoomsReq} postRoomsReq 新しい部屋の掲載リクエスト
+         * @param {HostsPostRoomsReq} hostsPostRoomsReq 新しい部屋の掲載リクエスト
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async postRooms(postRoomsReq: PostRoomsReq, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await HostsRoomsApiAxiosParamCreator(configuration).postRooms(postRoomsReq, options);
+        async hostsPostRooms(hostsPostRoomsReq: HostsPostRoomsReq, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await HostsRoomsApiAxiosParamCreator(configuration).hostsPostRooms(hostsPostRoomsReq, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -1010,12 +1010,12 @@ export const HostsRoomsApiFactory = function (configuration?: Configuration, bas
         },
         /**
          * 新しい部屋を掲載
-         * @param {PostRoomsReq} postRoomsReq 新しい部屋の掲載リクエスト
+         * @param {HostsPostRoomsReq} hostsPostRoomsReq 新しい部屋の掲載リクエスト
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        postRooms(postRoomsReq: PostRoomsReq, options?: any): AxiosPromise<void> {
-            return HostsRoomsApiFp(configuration).postRooms(postRoomsReq, options).then((request) => request(axios, basePath));
+        hostsPostRooms(hostsPostRoomsReq: HostsPostRoomsReq, options?: any): AxiosPromise<void> {
+            return HostsRoomsApiFp(configuration).hostsPostRooms(hostsPostRoomsReq, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -1039,13 +1039,13 @@ export class HostsRoomsApi extends BaseAPI {
 
     /**
      * 新しい部屋を掲載
-     * @param {PostRoomsReq} postRoomsReq 新しい部屋の掲載リクエスト
+     * @param {HostsPostRoomsReq} hostsPostRoomsReq 新しい部屋の掲載リクエスト
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof HostsRoomsApi
      */
-    public postRooms(postRoomsReq: PostRoomsReq, options?: any) {
-        return HostsRoomsApiFp(this.configuration).postRooms(postRoomsReq, options).then((request) => request(this.axios, this.basePath));
+    public hostsPostRooms(hostsPostRoomsReq: HostsPostRoomsReq, options?: any) {
+        return HostsRoomsApiFp(this.configuration).hostsPostRooms(hostsPostRoomsReq, options).then((request) => request(this.axios, this.basePath));
     }
 
 }

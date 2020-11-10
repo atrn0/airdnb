@@ -117,7 +117,7 @@ paths:
     post:
       tags:
         - hostsRooms
-      operationId: postRooms
+      operationId: hostsPostRooms
       description: 新しい部屋を掲載
       security:
         - Bearer: []
@@ -127,7 +127,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PostRoomsReq'
+              $ref: '#/components/schemas/HostsPostRoomsReq'
       responses:
         204:
           description: NoContent
@@ -253,7 +253,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/HostsRoom'
-    PostRoomsReq:
+    HostsPostRoomsReq:
       type: object
       required:
         - name
