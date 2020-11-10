@@ -2,4 +2,5 @@
 .DS_Store
 
 # editor
-.idea
+.idea/
+.vscode/

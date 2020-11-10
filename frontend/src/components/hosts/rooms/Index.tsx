@@ -17,7 +17,6 @@ import { AuthContext } from '../../../contexts/authContext'
 import { useHistory } from 'react-router-dom'
 import React from 'react'
 import { Add } from '@material-ui/icons'
-import { create } from 'domain'
 
 export const HostsRooms: React.FC = () => {
   const { rooms, fetchRooms, createRoom } = useHostsRooms()
