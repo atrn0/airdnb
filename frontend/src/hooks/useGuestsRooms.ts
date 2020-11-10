@@ -16,10 +16,13 @@ export const useGuestsRooms = () => {
     setRooms(res.data.rooms)
   }, [getGuestId])
 
-  const fetchRoom = useCallback(async (roomId: string) => {
-    const res = await api(getGuestId()).guestsGetRoom(roomId)
-    setRoom(res.data)
-  }, [getGuestId])
+  const fetchRoom = useCallback(
+    async (roomId: string) => {
+      const res = await api(getGuestId()).guestsGetRoom(roomId)
+      setRoom(res.data)
+    },
+    [getGuestId]
+  )
 
   return { rooms, fetchRooms, room, fetchRoom }
 }

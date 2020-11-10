@@ -3,11 +3,14 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import { Login } from './components/Login'
 import { GuestRooms } from './components/guests/rooms/Index'
 import { AuthProvider } from './contexts/authContext'
-import { GuestsRoom } from './components/guests/rooms/Room';
+import { GuestsRoomDetail } from './components/guests/rooms/Room';
+import { MuiPickersUtilsProvider } from '@material-ui/pickers'
+import DayjsUtils from '@date-io/dayjs'
 
 const App: React.FC = () => {
   return (
     <div>
+      <MuiPickersUtilsProvider utils={DayjsUtils}>
       <AuthProvider>
         <header>header</header>
         <BrowserRouter>
@@ -19,11 +22,12 @@ const App: React.FC = () => {
               <GuestRooms />
             </Route>
             <Route exaxt path="/guests/rooms/:roomId">
-              <GuestsRoom/>
+              <GuestsRoomDetail/>
             </Route>
           </Switch>
         </BrowserRouter>
       </AuthProvider>
+        </MuiPickersUtilsProvider>
     </div>
   )
 }
