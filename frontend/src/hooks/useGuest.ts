@@ -14,5 +14,9 @@ export const useGuest = () => {
     return Cookies.get('guest_id') || ''
   }, [])
 
-  return { getGuestId, loginAsGuest, loggedInAsGuest }
+  const logoutGuest = useCallback(() => {
+    return Cookies.set('guest_id', '')
+  }, [])
+
+  return { getGuestId, loginAsGuest, loggedInAsGuest, logoutGuest }
 }

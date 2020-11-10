@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import {
   AppBar,
+  Button,
   Drawer,
   IconButton,
   List,
@@ -12,7 +13,8 @@ import {
 } from '@material-ui/core'
 import MenuIcon from '@material-ui/icons/Menu'
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
+import { AuthContext } from '../../contexts/authContext'
 
 const StyledSpacer = styled.div`
   flex-grow: 1;
@@ -24,6 +26,8 @@ const StyledList = styled((props: ListProps) => <List {...props} />)`
 
 export const Header: React.FC = () => {
   const [isOpenDrawer, setOpenDrawer] = useState(false)
+  const { logoutGuest } = useContext(AuthContext)
+  const history = useHistory()
 
   return (
     <>
@@ -45,7 +49,14 @@ export const Header: React.FC = () => {
           <ListItem button component={Link} to="/guests/reservations">
             <ListItemText primary="予約一覧" />
           </ListItem>
-          <ListItem button>
+          <ListItem
+            button
+            component={Button}
+            onClick={() => {
+              logoutGuest()
+              history.push('/')
+            }}
+          >
             <ListItemText primary="ログアウト" />
           </ListItem>
         </StyledList>
