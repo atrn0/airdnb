@@ -2,14 +2,14 @@ import React from 'react'
 import { useGuest } from '../hooks/useGuest'
 import { useHost } from '../hooks/useHost'
 
-type AuthHooks = {
-  guestId: string
-  loginAsGuest: (guestId: string) => void
-  hostId: string
-  loginAsHost: (hostId: string) => void
+type AuthInfo = {
+  guestId?: string
+  loginAsGuest?: (guestId: string) => void
+  hostId?: string
+  loginAsHost?: (hostId: string) => void
 }
 
-export const AuthContext = React.createContext<AuthHooks | null>(null)
+export const AuthContext = React.createContext<AuthInfo>({})
 
 export const AuthProvider: React.FC = (props) => {
   const { guestId, loginAsGuest } = useGuest()

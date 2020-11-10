@@ -1,9 +1,9 @@
 import { Button, TextField } from '@material-ui/core'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { useCallback } from 'react'
-import { Link } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
-import { useGuest } from '../hooks/useGuest'
+import { AuthContext } from '../contexts/authContext'
 
 const StyledContainer = styled.div`
   display: flex;
@@ -11,9 +11,7 @@ const StyledContainer = styled.div`
   align-items: center;
 `
 
-const StyledButton = styled(({ ...others }) => (
-  <Button component={Link} {...others} />
-))`
+const StyledButton = styled(({ ...others }) => <Button {...others} />)`
   &.MuiButtonBase-root {
     margin-top: 20px;
   }
@@ -21,7 +19,8 @@ const StyledButton = styled(({ ...others }) => (
 
 export const Login: React.FC = () => {
   const [userId, setUserId] = useState('')
-  const { loginAsGuest } = useGuest()
+  const { loginAsGuest } = useContext(AuthContext)
+  const history = useHistory()
 
   const onUserIdChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -29,6 +28,11 @@ export const Login: React.FC = () => {
     },
     []
   )
+
+  const handleLoginAsGuest = useCallback(() => {
+    loginAsGuest && loginAsGuest(userId)
+    history.push('/guests/rooms')
+  }, [history, loginAsGuest, userId])
 
   return (
     <StyledContainer>
@@ -43,9 +47,8 @@ export const Login: React.FC = () => {
       </StyledButton>
       <StyledButton
         variant="contained"
-        to="/guests/rooms"
         disabled={!userId}
-        onClick={() => loginAsGuest(userId)}
+        onClick={handleLoginAsGuest}
       >
         ゲストとしてログイン
       </StyledButton>
