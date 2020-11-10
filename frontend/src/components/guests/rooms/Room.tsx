@@ -5,6 +5,8 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
 import { AuthContext } from '../../../contexts/authContext'
 import { useGuestsRooms } from '../../../hooks/useGuestsRooms'
+import { useGuestsReservations } from '../../../hooks/useGuestsReservations'
+import { useCallback } from 'react'
 
 export const GuestsRoomDetail: React.FC = () => {
   const { loggedInAsGuest } = useContext(AuthContext)
@@ -13,6 +15,15 @@ export const GuestsRoomDetail: React.FC = () => {
   const history = useHistory()
   const [checkIn, setCheckIn] = useState(dayjs())
   const [checkOut, setCheckOut] = useState(dayjs())
+  const { createReservation } = useGuestsReservations()
+
+  const handleReservation = useCallback(() => {
+    createReservation({
+      check_in: checkIn.toISOString(),
+      check_out: checkOut.toISOString(),
+      room_id: roomId,
+    })
+  }, [checkIn, checkOut, createReservation, roomId])
 
   useEffect(() => {
     if (!loggedInAsGuest()) {
@@ -42,7 +53,12 @@ export const GuestsRoomDetail: React.FC = () => {
         value={checkOut}
         onChange={setCheckOut}
       />
-      <Button variant="contained" color="primary" disableElevation>
+      <Button
+        variant="contained"
+        color="primary"
+        disableElevation
+        onClick={handleReservation}
+      >
         予約する
       </Button>
     </>
