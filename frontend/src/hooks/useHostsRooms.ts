@@ -1,6 +1,11 @@
 import { useState, useCallback, useContext } from 'react'
 import { AuthContext } from '../contexts/authContext'
-import { HostsPostRoomsReq, HostsRoom, HostsRoomsApi } from '../gen/openapi/api'
+import {
+  HostsPostRoomsReq,
+  HostsPutRoomsReq,
+  HostsRoom,
+  HostsRoomsApi,
+} from '../gen/openapi/api'
 import { config } from '../config'
 
 const api = (token: string) =>
@@ -22,6 +27,13 @@ export const useHostsRooms = () => {
     [getHostId]
   )
 
+  const updateRoom = useCallback(
+    async (roomId: string, req: HostsPutRoomsReq) => {
+      await api(getHostId()).hostsPutRooms(roomId, req)
+    },
+    [getHostId]
+  )
+
   const deleteRoom = useCallback(
     async (roomId: string) => {
       await api(getHostId()).hostsDeleteRooms(roomId)
@@ -29,5 +41,5 @@ export const useHostsRooms = () => {
     [getHostId]
   )
 
-  return { rooms, fetchRooms, createRoom, deleteRoom }
+  return { rooms, fetchRooms, createRoom, updateRoom, deleteRoom }
 }

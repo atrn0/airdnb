@@ -133,7 +133,7 @@ func (h *RoomsHandlerImpl) HostsPutRooms(ctx echo.Context, roomId string) error 
 
 	if req.Name != "" {
 		_, err = tx.Exec(`
-		UPDATE rooms SET name = $1 WHERE id = $3
+		UPDATE rooms SET name = $1 WHERE id = $2
 	`, req.Name, roomId)
 		if err != nil {
 			return ctx.JSON(http.StatusInternalServerError,
@@ -143,7 +143,7 @@ func (h *RoomsHandlerImpl) HostsPutRooms(ctx echo.Context, roomId string) error 
 
 	if req.Price > 0 {
 		_, err = tx.Exec(`
-		UPDATE rooms SET price = $1 WHERE id = $3
+		UPDATE rooms SET price = $1 WHERE id = $2
 	`, req.Price, roomId)
 		if err != nil {
 			return ctx.JSON(http.StatusInternalServerError,
