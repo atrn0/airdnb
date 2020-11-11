@@ -20,6 +20,7 @@ type RoomsHandlerImpl struct {
 type HostsRoomsHandler interface {
 	HostsGetRooms(ctx echo.Context) error
 	HostsPostRooms(ctx echo.Context) error
+	HostsDeleteRooms(ctx echo.Context, roomId string) error
 }
 
 func NewRoomsHandler(db *sqlx.DB) HostsRoomsHandler {
@@ -89,6 +90,39 @@ func (h *RoomsHandlerImpl) HostsPostRooms(ctx echo.Context) error {
 	VALUES (:id, :name, :price, :host_id) 
 	`, roomCreate)
 
+	if err != nil {
+		return ctx.JSON(http.StatusInternalServerError,
+			errors.ErrorRes{Message: err.Error()})
+	}
+
+	return ctx.NoContent(http.StatusNoContent)
+}
+
+func (h *RoomsHandlerImpl) HostsDeleteRooms(ctx echo.Context, roomId string) error {
+	userId := auth.GetUserId(ctx)
+	if userId == "" {
+		return ctx.JSON(
+			http.StatusBadRequest,
+			errors.ErrorRes{Message: "userId is required"},
+		)
+	}
+
+	var room entity.Room
+	err := h.db.Get(&room, `
+		SELECT * from rooms where id = $1
+	`, roomId)
+	if err != nil {
+		return ctx.JSON(http.StatusNotFound,
+			errors.ErrorRes{Message: "the room not found"})
+	}
+
+	if room.HostID != userId {
+		return ctx.JSON(http.StatusUnauthorized, errors.ErrorRes{Message: "not authorized"})
+	}
+
+	_, err = h.db.Exec(`
+		DELETE FROM rooms WHERE id = $1
+		`, roomId)
 	if err != nil {
 		return ctx.JSON(http.StatusInternalServerError,
 			errors.ErrorRes{Message: err.Error()})
