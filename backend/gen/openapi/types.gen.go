@@ -110,3 +110,4 @@ type HostsPostRoomsJSONRequestBody HostsPostRoomsJSONBody
 
 // HostsPutRoomsRequestBody defines body for HostsPutRooms for application/json ContentType.
 type HostsPutRoomsJSONRequestBody HostsPutRoomsJSONBody
+

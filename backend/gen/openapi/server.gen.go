@@ -215,3 +215,4 @@ func RegisterHandlers(router EchoRouter, si ServerInterface) {
 	router.PUT("/hosts/rooms/:roomId", wrapper.HostsPutRooms)
 
 }
+

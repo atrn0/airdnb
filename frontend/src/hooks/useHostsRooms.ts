@@ -22,5 +22,12 @@ export const useHostsRooms = () => {
     [getHostId]
   )
 
-  return { rooms, fetchRooms, createRoom }
+  const deleteRoom = useCallback(
+    async (roomId: string) => {
+      await api(getHostId()).hostsDeleteRooms(roomId)
+    },
+    [getHostId]
+  )
+
+  return { rooms, fetchRooms, createRoom, deleteRoom }
 }

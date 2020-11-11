@@ -4,14 +4,13 @@ BACKEND_OPENAPI_GEN_DIR=backend/gen/openapi
 FRONTEND_OPENAPI_GEN_DIR=frontend/src/gen/openapi
 
 start:
-	make start-backend
-	make start-frontend
+	docker-compose up --build app postgres frontend
 
 start-backend:
 	docker-compose up --build app postgres
 
 start-frontend:
-	yarn --cwd frontend start
+	docker-compose up --build frontend
 
 db-upgrade:
 	cat backend/psql/*.sql | psql -h localhost -U le4db

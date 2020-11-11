@@ -10,7 +10,7 @@ WORKDIR /go/src/github.com/atrn0/le4db/backend
 COPY go.mod go.sum ./
 RUN go mod download
 
-COPY . .
+COPY . ./
 RUN go build -o /le4db main.go
 
 RUN go get github.com/cespare/reflex

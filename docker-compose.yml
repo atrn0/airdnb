@@ -10,7 +10,7 @@ services:
     volumes:
       - .:/go/src/github.com/atrn0/le4db
     ports:
-    - 8080:8080
+      - 8080:8080
   postgres:
     container_name: le4db_postgres
     image: postgres:13
@@ -18,9 +18,9 @@ services:
       - POSTGRES_USER=le4db
       - POSTGRES_PASSWORD=pass
     volumes:
-    - le4db_pgdata:/var/lib/postgresql/data
+      - le4db_pgdata:/var/lib/postgresql/data
     ports:
-    - 5432:5432
+      - 5432:5432
   seed:
     container_name: le4db_seed
     build:
@@ -28,7 +28,7 @@ services:
       dockerfile: Dockerfile
     command: go run seed.go
     volumes:
-    - .:/go/src/github.com/atrn0/le4db
+      - .:/go/src/github.com/atrn0/le4db
   swagger-ui:
     container_name: le4db-swagger-ui
     image: swaggerapi/swagger-ui:v3.20.7
@@ -38,6 +38,16 @@ services:
       - ./openapi/spec/:/usr/share/nginx/html/spec/
     env_file:
       - openapi/swagger.env
+  frontend:
+    container_name: le4db-frontend
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    volumes:
+      - ./frontend:/frontend
+    command: yarn start
 
 volumes:
   le4db_pgdata:
