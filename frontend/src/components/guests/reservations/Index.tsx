@@ -19,6 +19,9 @@ export const GuestsReservations: React.FC = () => {
       <Typography variant="h5">予約一覧</Typography>
       <List>
         {reservations
+          .filter((r) => {
+            return dayjs(r.check_out).isAfter(dayjs())
+          })
           .sort((a, b) => (a.check_in > b.check_in ? 1 : -1))
           .map((r, i) => {
             const term = `${dayjs(r.check_in).format('YYYY/MM/DD')} - ${dayjs(

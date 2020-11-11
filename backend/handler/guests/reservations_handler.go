@@ -89,20 +89,39 @@ func (h *ReservationsHandlerImpl) PostReservations(ctx echo.Context) error {
 		GuestID:  userId,
 	}
 
-	_, err := h.db.NamedExec(`
+	tx := h.db.MustBegin()
+
+	_, err := tx.NamedExec(`
 		INSERT INTO reservations (id, check_in, check_out, room_id, guest_id)
 		VALUES (:id, :check_in, :check_out, :room_id, :guest_id)
 		`, reservationCreate)
+	if err != nil {
+		return ctx.JSON(http.StatusInternalServerError,
+			errors.ErrorRes{Message: err.Error()})
+	}
 
+	var r entity.ReservationWithRoomName
+	err = tx.Get(&r, `
+		SELECT res.id as id, check_in, check_out, room_id, r.name as room_name 
+		FROM reservations as res INNER JOIN rooms r on r.id = res.room_id
+		WHERE res.id = $1
+	`, reservationCreate.ID)
+	if err != nil {
+		return ctx.JSON(http.StatusInternalServerError,
+			errors.ErrorRes{Message: err.Error()})
+	}
+
+	err = tx.Commit()
 	if err != nil {
 		return ctx.JSON(http.StatusInternalServerError,
 			errors.ErrorRes{Message: err.Error()})
 	}
 
 	return ctx.JSON(http.StatusCreated, oapi.GuestsReservation{
-		Id:       reservationCreate.ID,
-		CheckIn:  reservationCreate.CheckIn,
-		CheckOut: reservationCreate.CheckOut,
-		RoomId:   reservationCreate.RoomID,
+		CheckIn:  r.CheckIn,
+		CheckOut: r.CheckOut,
+		Id:       r.ID,
+		RoomId:   r.RoomID,
+		RoomName: r.RoomName,
 	})
 }

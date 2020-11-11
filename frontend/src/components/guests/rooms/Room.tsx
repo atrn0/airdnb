@@ -1,4 +1,4 @@
-import { Button, Container, Typography } from '@material-ui/core'
+import { Button, Container, Snackbar, Typography } from '@material-ui/core'
 import { DatePicker } from '@material-ui/pickers'
 import dayjs from 'dayjs'
 import React, { useContext, useEffect, useState } from 'react'
@@ -32,15 +32,26 @@ export const GuestsRoomDetail: React.FC = () => {
   const { room, fetchRoom } = useGuestsRooms()
   const history = useHistory()
   const [checkIn, setCheckIn] = useState(dayjs())
-  const [checkOut, setCheckOut] = useState(dayjs())
+  const [checkOut, setCheckOut] = useState(dayjs().add(1, 'day'))
   const { createReservation } = useGuestsReservations()
 
-  const handleReservation = useCallback(() => {
-    createReservation({
-      check_in: checkIn.toISOString(),
-      check_out: checkOut.toISOString(),
-      room_id: roomId,
-    })
+  const [snackbarMsg, setSnackbarMsg] = useState('')
+
+  const handleReservation = useCallback(async () => {
+    try {
+      const res = await createReservation({
+        check_in: checkIn.toISOString(),
+        check_out: checkOut.toISOString(),
+        room_id: roomId,
+      })
+      setSnackbarMsg(
+        `${res.room_name}を${dayjs(res.check_in).format('MM/DD')} - ${dayjs(
+          res.check_out
+        ).format('MM/DD')}で予約しました。`
+      )
+    } catch (err) {
+      setSnackbarMsg('予約できませんでした。')
+    }
   }, [checkIn, checkOut, createReservation, roomId])
 
   useEffect(() => {
@@ -60,15 +71,21 @@ export const GuestsRoomDetail: React.FC = () => {
           alt=""
         />
         <Typography variant="h4">{room.name}</Typography>
-        <p>¥{room.price}/泊</p>
+        <Typography variant="body1">
+          ¥{room.price}/泊 (合計¥{checkOut.diff(checkIn, 'day') * room.price})
+        </Typography>
         <div>
           <MarginDatePicker
+            disablePast
+            maxDate={checkOut.subtract(1, 'day')}
             variant="inline"
             label="チェックイン"
             value={checkIn}
             onChange={setCheckIn}
           />
           <MarginDatePicker
+            disablePast
+            minDate={checkIn.add(1, 'day')}
             variant="inline"
             label="チェックアウト"
             value={checkOut}
@@ -84,6 +101,12 @@ export const GuestsRoomDetail: React.FC = () => {
           予約する
         </MarginButton>
       </Container>
+      <Snackbar
+        open={snackbarMsg !== ''}
+        autoHideDuration={3000}
+        message={snackbarMsg}
+        onClose={() => setSnackbarMsg('')}
+      />
     </>
   )
 }
