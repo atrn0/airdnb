@@ -40,6 +40,9 @@ type ServerInterface interface {
 
 	// (DELETE /hosts/rooms/{roomId})
 	HostsDeleteRooms(ctx echo.Context, roomId string) error
+
+	// (PUT /hosts/rooms/{roomId})
+	HostsPutRooms(ctx echo.Context, roomId string) error
 }
 
 // ServerInterfaceWrapper converts echo contexts to parameters.
@@ -160,6 +163,24 @@ func (w *ServerInterfaceWrapper) HostsDeleteRooms(ctx echo.Context) error {
 	return err
 }
 
+// HostsPutRooms converts echo context to params.
+func (w *ServerInterfaceWrapper) HostsPutRooms(ctx echo.Context) error {
+	var err error
+	// ------------- Path parameter "roomId" -------------
+	var roomId string
+
+	err = runtime.BindStyledParameter("simple", false, "roomId", ctx.Param("roomId"), &roomId)
+	if err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter roomId: %s", err))
+	}
+
+	ctx.Set("Bearer.Scopes", []string{""})
+
+	// Invoke the callback with all the unmarshalled arguments
+	err = w.Handler.HostsPutRooms(ctx, roomId)
+	return err
+}
+
 // This is a simple interface which specifies echo.Route addition functions which
 // are present on both echo.Echo and echo.Group, since we want to allow using
 // either of them for path registration
@@ -191,5 +212,6 @@ func RegisterHandlers(router EchoRouter, si ServerInterface) {
 	router.GET("/hosts/rooms", wrapper.HostsGetRooms)
 	router.POST("/hosts/rooms", wrapper.HostsPostRooms)
 	router.DELETE("/hosts/rooms/:roomId", wrapper.HostsDeleteRooms)
+	router.PUT("/hosts/rooms/:roomId", wrapper.HostsPutRooms)
 
 }

@@ -132,6 +132,30 @@ paths:
         204:
           description: NoContent
   /hosts/rooms/{roomId}:
+    put:
+      tags:
+        - hostsRooms
+      operationId: hostsPutRooms
+      description: 部屋の情報を変更
+      security:
+        - Bearer: []
+      parameters:
+        - in: path
+          name: roomId
+          description: Room ID
+          schema:
+            type: string
+          required: true
+      requestBody:
+        description: 新しい部屋の掲載リクエスト
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HostsPutRoomsReq'
+      responses:
+        204:
+          description: NoContent
     delete:
       tags:
         - hostsRooms
@@ -272,6 +296,18 @@ components:
           items:
             $ref: '#/components/schemas/HostsRoom'
     HostsPostRoomsReq:
+      type: object
+      required:
+        - name
+        - price
+      properties:
+        name:
+          type: string
+          example: リッツカールトン
+        price:
+          type: integer
+          example: 300000
+    HostsPutRoomsReq:
       type: object
       required:
         - name

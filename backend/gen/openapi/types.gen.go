@@ -56,6 +56,12 @@ type HostsPostRoomsReq struct {
 	Price int    `json:"price"`
 }
 
+// HostsPutRoomsReq defines model for HostsPutRoomsReq.
+type HostsPutRoomsReq struct {
+	Name  string `json:"name"`
+	Price int    `json:"price"`
+}
+
 // HostsReservation defines model for HostsReservation.
 type HostsReservation struct {
 	CheckIn   time.Time `json:"check_in"`
@@ -90,6 +96,9 @@ type GuestsPostUsersJSONBody GuestsPostUsersReq
 // HostsPostRoomsJSONBody defines parameters for HostsPostRooms.
 type HostsPostRoomsJSONBody HostsPostRoomsReq
 
+// HostsPutRoomsJSONBody defines parameters for HostsPutRooms.
+type HostsPutRoomsJSONBody HostsPutRoomsReq
+
 // PostReservationsRequestBody defines body for PostReservations for application/json ContentType.
 type PostReservationsJSONRequestBody PostReservationsJSONBody
 
@@ -98,3 +107,6 @@ type GuestsPostUsersJSONRequestBody GuestsPostUsersJSONBody
 
 // HostsPostRoomsRequestBody defines body for HostsPostRooms for application/json ContentType.
 type HostsPostRoomsJSONRequestBody HostsPostRoomsJSONBody
+
+// HostsPutRoomsRequestBody defines body for HostsPutRooms for application/json ContentType.
+type HostsPutRoomsJSONRequestBody HostsPutRoomsJSONBody

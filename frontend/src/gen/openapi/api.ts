@@ -180,6 +180,25 @@ export interface HostsPostRoomsReq {
 /**
  * 
  * @export
+ * @interface HostsPutRoomsReq
+ */
+export interface HostsPutRoomsReq {
+    /**
+     * 
+     * @type {string}
+     * @memberof HostsPutRoomsReq
+     */
+    name: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof HostsPutRoomsReq
+     */
+    price: number;
+}
+/**
+ * 
+ * @export
  * @interface HostsReservation
  */
 export interface HostsReservation {
@@ -1001,6 +1020,59 @@ export const HostsRoomsApiAxiosParamCreator = function (configuration?: Configur
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * 部屋の情報を変更
+         * @param {string} roomId Room ID
+         * @param {HostsPutRoomsReq} hostsPutRoomsReq 新しい部屋の掲載リクエスト
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        hostsPutRooms: async (roomId: string, hostsPutRoomsReq: HostsPutRoomsReq, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'roomId' is not null or undefined
+            if (roomId === null || roomId === undefined) {
+                throw new RequiredError('roomId','Required parameter roomId was null or undefined when calling hostsPutRooms.');
+            }
+            // verify required parameter 'hostsPutRoomsReq' is not null or undefined
+            if (hostsPutRoomsReq === null || hostsPutRoomsReq === undefined) {
+                throw new RequiredError('hostsPutRoomsReq','Required parameter hostsPutRoomsReq was null or undefined when calling hostsPutRooms.');
+            }
+            const localVarPath = `/hosts/rooms/{roomId}`
+                .replace(`{${"roomId"}}`, encodeURIComponent(String(roomId)));
+            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? configuration.accessToken()
+                    : configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            const needsSerialization = (typeof hostsPutRoomsReq !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(hostsPutRoomsReq !== undefined ? hostsPutRoomsReq : {}) : (hostsPutRoomsReq || "");
+
+            return {
+                url: globalImportUrl.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -1048,6 +1120,20 @@ export const HostsRoomsApiFp = function(configuration?: Configuration) {
                 return axios.request(axiosRequestArgs);
             };
         },
+        /**
+         * 部屋の情報を変更
+         * @param {string} roomId Room ID
+         * @param {HostsPutRoomsReq} hostsPutRoomsReq 新しい部屋の掲載リクエスト
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async hostsPutRooms(roomId: string, hostsPutRoomsReq: HostsPutRoomsReq, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await HostsRoomsApiAxiosParamCreator(configuration).hostsPutRooms(roomId, hostsPutRoomsReq, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
     }
 };
 
@@ -1082,6 +1168,16 @@ export const HostsRoomsApiFactory = function (configuration?: Configuration, bas
          */
         hostsPostRooms(hostsPostRoomsReq: HostsPostRoomsReq, options?: any): AxiosPromise<void> {
             return HostsRoomsApiFp(configuration).hostsPostRooms(hostsPostRoomsReq, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 部屋の情報を変更
+         * @param {string} roomId Room ID
+         * @param {HostsPutRoomsReq} hostsPutRoomsReq 新しい部屋の掲載リクエスト
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        hostsPutRooms(roomId: string, hostsPutRoomsReq: HostsPutRoomsReq, options?: any): AxiosPromise<void> {
+            return HostsRoomsApiFp(configuration).hostsPutRooms(roomId, hostsPutRoomsReq, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -1123,6 +1219,18 @@ export class HostsRoomsApi extends BaseAPI {
      */
     public hostsPostRooms(hostsPostRoomsReq: HostsPostRoomsReq, options?: any) {
         return HostsRoomsApiFp(this.configuration).hostsPostRooms(hostsPostRoomsReq, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 部屋の情報を変更
+     * @param {string} roomId Room ID
+     * @param {HostsPutRoomsReq} hostsPutRoomsReq 新しい部屋の掲載リクエスト
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof HostsRoomsApi
+     */
+    public hostsPutRooms(roomId: string, hostsPutRoomsReq: HostsPutRoomsReq, options?: any) {
+        return HostsRoomsApiFp(this.configuration).hostsPutRooms(roomId, hostsPutRoomsReq, options).then((request) => request(this.axios, this.basePath));
     }
 
 }
