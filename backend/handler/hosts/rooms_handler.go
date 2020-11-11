@@ -19,7 +19,7 @@ type RoomsHandlerImpl struct {
 
 type HostsRoomsHandler interface {
 	HostsGetRooms(ctx echo.Context) error
-	PostRooms(ctx echo.Context) error
+	HostsPostRooms(ctx echo.Context) error
 }
 
 func NewRoomsHandler(db *sqlx.DB) HostsRoomsHandler {
@@ -60,7 +60,7 @@ func (h *RoomsHandlerImpl) HostsGetRooms(ctx echo.Context) error {
 	})
 }
 
-func (h *RoomsHandlerImpl) PostRooms(ctx echo.Context) error {
+func (h *RoomsHandlerImpl) HostsPostRooms(ctx echo.Context) error {
 	userId := auth.GetUserId(ctx)
 	if userId == "" {
 		return ctx.JSON(
@@ -69,7 +69,7 @@ func (h *RoomsHandlerImpl) PostRooms(ctx echo.Context) error {
 		)
 	}
 
-	req := new(oapi.PostRoomsReq)
+	req := new(oapi.HostsPostRoomsReq)
 	if err := ctx.Bind(req); err != nil {
 		return ctx.JSON(
 			http.StatusBadRequest,

@@ -3,18 +3,26 @@ OPENAPI_SPEC=openapi/spec/openapi.yml
 BACKEND_OPENAPI_GEN_DIR=backend/gen/openapi
 FRONTEND_OPENAPI_GEN_DIR=frontend/src/gen/openapi
 
-start-server:
+start:
+	make start-backend
+	make start-frontend
+
+start-backend:
 	docker-compose up --build app postgres
+
+start-frontend:
+	yarn --cwd frontend start
 
 db-upgrade:
 	cat backend/psql/*.sql | psql -h localhost -U le4db
 
 gen:
-	make openapi-gen
+	make openapi-gen-backend
+	make openapi-gen-frontend
 
 ## OpenAPI
 
-openapi-gen:
+openapi-gen-backend:
 	rm -rf ${PWD}/${BACKEND_OPENAPI_GEN_DIR}/* || true
 	mkdir ${PWD}/${BACKEND_OPENAPI_GEN_DIR} || true
 	oapi-codegen -generate spec ${OPENAPI_SPEC} > ${PWD}/${BACKEND_OPENAPI_GEN_DIR}/spec.gen.go && \

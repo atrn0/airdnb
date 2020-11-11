@@ -36,7 +36,10 @@ type ServerInterface interface {
 	HostsGetRooms(ctx echo.Context) error
 
 	// (POST /hosts/rooms)
-	PostRooms(ctx echo.Context) error
+	HostsPostRooms(ctx echo.Context) error
+
+	// (DELETE /hosts/rooms/{roomId})
+	HostsDeleteRooms(ctx echo.Context, roomId string) error
 }
 
 // ServerInterfaceWrapper converts echo contexts to parameters.
@@ -128,14 +131,32 @@ func (w *ServerInterfaceWrapper) HostsGetRooms(ctx echo.Context) error {
 	return err
 }
 
-// PostRooms converts echo context to params.
-func (w *ServerInterfaceWrapper) PostRooms(ctx echo.Context) error {
+// HostsPostRooms converts echo context to params.
+func (w *ServerInterfaceWrapper) HostsPostRooms(ctx echo.Context) error {
 	var err error
 
 	ctx.Set("Bearer.Scopes", []string{""})
 
 	// Invoke the callback with all the unmarshalled arguments
-	err = w.Handler.PostRooms(ctx)
+	err = w.Handler.HostsPostRooms(ctx)
+	return err
+}
+
+// HostsDeleteRooms converts echo context to params.
+func (w *ServerInterfaceWrapper) HostsDeleteRooms(ctx echo.Context) error {
+	var err error
+	// ------------- Path parameter "roomId" -------------
+	var roomId string
+
+	err = runtime.BindStyledParameter("simple", false, "roomId", ctx.Param("roomId"), &roomId)
+	if err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter roomId: %s", err))
+	}
+
+	ctx.Set("Bearer.Scopes", []string{""})
+
+	// Invoke the callback with all the unmarshalled arguments
+	err = w.Handler.HostsDeleteRooms(ctx, roomId)
 	return err
 }
 
@@ -168,6 +189,7 @@ func RegisterHandlers(router EchoRouter, si ServerInterface) {
 	router.POST("/guests/users", wrapper.GuestsPostUsers)
 	router.GET("/hosts/reservations", wrapper.HostsGetReservations)
 	router.GET("/hosts/rooms", wrapper.HostsGetRooms)
-	router.POST("/hosts/rooms", wrapper.PostRooms)
+	router.POST("/hosts/rooms", wrapper.HostsPostRooms)
+	router.DELETE("/hosts/rooms/:roomId", wrapper.HostsDeleteRooms)
 
 }

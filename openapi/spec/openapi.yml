@@ -131,6 +131,24 @@ paths:
       responses:
         204:
           description: NoContent
+  /hosts/rooms/{roomId}:
+    delete:
+      tags:
+        - hostsRooms
+      operationId: hostsDeleteRooms
+      description: 部屋を削除
+      security:
+        - Bearer: []
+      parameters:
+        - in: path
+          name: roomId
+          description: Room ID
+          schema:
+            type: string
+          required: true
+      responses:
+        204:
+          description: NoContent
   /hosts/reservations:
     get:
       # TODO: 時間でcursor
