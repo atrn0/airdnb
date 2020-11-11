@@ -9,7 +9,7 @@ export const GuestsWrapper: React.FC = (props) => {
   const history = useHistory()
 
   useEffect(() => {
-    if (!loggedInAsGuest()) {
+    if (!loggedInAsGuest) {
       history.replace('/')
       return
     }
@@ -17,5 +17,6 @@ export const GuestsWrapper: React.FC = (props) => {
       logoutHost()
     }
   }, [history, loggedInAsGuest, loggedInAsHost, logoutHost])
+
   return <>{props.children}</>
 }

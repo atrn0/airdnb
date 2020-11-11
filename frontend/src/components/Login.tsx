@@ -1,8 +1,8 @@
-import { Button, TextField } from '@material-ui/core'
+import { Button, Snackbar, TextField } from '@material-ui/core'
 import { ButtonProps } from '@material-ui/core/Button/Button'
 import React, { useContext, useState } from 'react'
 import { useCallback } from 'react'
-import { Link, LinkProps } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 import { AuthContext } from '../contexts/authContext'
 
@@ -12,9 +12,7 @@ const StyledContainer = styled.div`
   align-items: center;
 `
 
-const StyledButton = styled((props: LinkProps & ButtonProps) => (
-  <Button component={Link} {...props} />
-))`
+const StyledButton = styled((props: ButtonProps) => <Button {...props} />)`
   &.MuiButtonBase-root {
     margin-top: 20px;
   }
@@ -23,6 +21,9 @@ const StyledButton = styled((props: LinkProps & ButtonProps) => (
 export const Login: React.FC = () => {
   const [userId, setUserId] = useState('')
   const { loginAsGuest, loginAsHost } = useContext(AuthContext)
+  const history = useHistory()
+  const [openSnackbar, setOpenSnackbar] = useState(false)
+  const [snackbarMsg, setSnackbarMsg] = useState('')
 
   const onUserIdChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -31,9 +32,15 @@ export const Login: React.FC = () => {
     []
   )
 
-  const handleLoginAsGuest = useCallback(() => {
-    loginAsGuest && loginAsGuest(userId)
-  }, [loginAsGuest, userId])
+  const handleLoginAsGuest = useCallback(async () => {
+    try {
+      await loginAsGuest(userId)
+      history.push('/guests/rooms')
+    } catch (err) {
+      setSnackbarMsg('ログインできませんでした。')
+      setOpenSnackbar(true)
+    }
+  }, [history, loginAsGuest, userId])
 
   const handleLoginAsHost = useCallback(() => {
     loginAsHost && loginAsHost(userId)
@@ -49,20 +56,25 @@ export const Login: React.FC = () => {
       />
       <StyledButton
         variant="contained"
-        to="/hosts/rooms"
         disabled={!userId}
         onClick={handleLoginAsHost}
       >
         ホストとしてログイン
       </StyledButton>
       <StyledButton
-        to="guests/rooms"
         variant="contained"
         disabled={!userId}
         onClick={handleLoginAsGuest}
       >
         ゲストとしてログイン
       </StyledButton>
+      <Snackbar
+        message={snackbarMsg}
+        open={openSnackbar}
+        onClose={() => {
+          setOpenSnackbar(false)
+        }}
+      />
     </StyledContainer>
   )
 }

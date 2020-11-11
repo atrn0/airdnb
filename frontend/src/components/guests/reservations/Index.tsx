@@ -1,7 +1,6 @@
 import { List, ListItem, ListItemText, Typography } from '@material-ui/core'
 import dayjs from 'dayjs'
 import React, { useContext, useEffect } from 'react'
-import { useHistory } from 'react-router-dom'
 import { AuthContext } from '../../../contexts/authContext'
 import { useGuestsReservations } from '../../../hooks/useGuestsReservations'
 
@@ -10,7 +9,7 @@ export const GuestsReservations: React.FC = () => {
   const { reservations, fetchReservations } = useGuestsReservations()
 
   useEffect(() => {
-    if (loggedInAsGuest()) {
+    if (loggedInAsGuest) {
       fetchReservations()
     }
   }, [fetchReservations, loggedInAsGuest])

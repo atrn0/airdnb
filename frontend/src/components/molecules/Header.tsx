@@ -49,7 +49,7 @@ export const Header: React.FC = () => {
           <ListItem
             button
             component={Link}
-            to={`/${loggedInAsGuest() ? 'guests' : 'hosts'}/reservations`}
+            to={`/${loggedInAsGuest ? 'guests' : 'hosts'}/reservations`}
           >
             <ListItemText primary="予約一覧" />
           </ListItem>

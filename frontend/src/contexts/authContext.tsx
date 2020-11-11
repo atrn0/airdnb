@@ -5,7 +5,7 @@ import { useHost } from '../hooks/useHost'
 type AuthInfo = {
   getGuestId?: () => string
   loginAsGuest?: (guestId: string) => void
-  loggedInAsGuest?: () => boolean
+  loggedInAsGuest?: boolean
   logoutGuest?: () => void
   getHostId?: () => string
   loginAsHost?: (hostId: string) => void

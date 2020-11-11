@@ -13,7 +13,7 @@ export const HostsWrapper: React.FC = (props) => {
       history.replace('/')
       return
     }
-    if (loggedInAsGuest()) {
+    if (loggedInAsGuest) {
       logoutGuest()
     }
   }, [history, loggedInAsGuest, loggedInAsHost, logoutGuest])
