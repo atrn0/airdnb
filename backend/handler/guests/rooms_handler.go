@@ -37,7 +37,7 @@ func (h *RoomsHandlerImpl) GuestsGetRooms(ctx echo.Context) error {
 	}
 
 	var rooms []entity.Room
-	err := h.db.Select(&rooms, "select * from rooms limit 20")
+	err := h.db.Select(&rooms, "select * from rooms order by id desc limit 20")
 	if err != nil {
 		return ctx.JSON(http.StatusInternalServerError,
 			errors.ErrorRes{Message: "db error"})

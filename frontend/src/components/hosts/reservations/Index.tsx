@@ -10,7 +10,7 @@ export const HostsReservations: React.FC = () => {
   const { loggedInAsHost } = useContext(AuthContext)
 
   useEffect(() => {
-    if (loggedInAsHost()) {
+    if (loggedInAsHost) {
       fetchReservations()
     }
   }, [fetchReservations, loggedInAsHost])

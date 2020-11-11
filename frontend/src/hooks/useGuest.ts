@@ -7,11 +7,11 @@ const api = (token?: string) =>
   new GuestsUsersApi({ basePath: config.apiBasePath, accessToken: token })
 
 export const useGuest = () => {
-  const [loggedInAsGuest, setLoggedInAsGuest] = useState(false)
-
   const getGuestId = useCallback(() => {
     return Cookies.get('guest_id') || ''
   }, [])
+
+  const [loggedInAsGuest, setLoggedInAsGuest] = useState(getGuestId() !== '')
 
   const loginAsGuest = useCallback(async (guestId: string) => {
     try {

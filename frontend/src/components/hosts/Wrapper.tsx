@@ -9,7 +9,7 @@ export const HostsWrapper: React.FC = (props) => {
   const history = useHistory()
 
   useEffect(() => {
-    if (!loggedInAsHost()) {
+    if (!loggedInAsHost) {
       history.replace('/')
       return
     }

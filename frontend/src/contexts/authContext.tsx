@@ -9,7 +9,7 @@ type AuthInfo = {
   logoutGuest?: () => void
   getHostId?: () => string
   loginAsHost?: (hostId: string) => void
-  loggedInAsHost?: () => boolean
+  loggedInAsHost?: boolean
   logoutHost?: () => void
 }
 

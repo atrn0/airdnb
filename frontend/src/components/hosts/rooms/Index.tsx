@@ -1,5 +1,10 @@
 import {
   Button,
+  Card,
+  CardActions,
+  CardContent,
+  CardMedia,
+  CardProps,
   Container,
   Dialog,
   DialogActions,
@@ -10,8 +15,6 @@ import {
   IconButton,
   List,
   ListItem,
-  ListItemSecondaryAction,
-  ListItemText,
   TextField,
   Typography,
 } from '@material-ui/core'
@@ -25,9 +28,14 @@ import styled from 'styled-components'
 import { HostsRoom } from '../../../gen/openapi'
 
 const FloatingFab = styled((props: FabProps) => <Fab {...props} />)`
-  position: absolute;
+  position: fixed;
   right: 50px;
   bottom: 50px;
+`
+
+const StyledCard = styled((props: CardProps) => <Card {...props} />)`
+  margin: 0 auto;
+  width: 400px;
 `
 
 export const HostsRooms: React.FC = () => {
@@ -73,23 +81,32 @@ export const HostsRooms: React.FC = () => {
         <Typography variant="h4">Rooms</Typography>
         <List>
           {rooms
-            ?.sort((a, b) => (a.id > b.id ? 1 : -1))
+            ?.sort((a, b) => (a.id < b.id ? 1 : -1))
             .map((room) => {
               return (
-                <ListItem key={room.id}>
-                  <ListItemText
-                    primary={room.name}
-                    secondary={`¥${room.price}/泊`}
-                  />
-                  <ListItemSecondaryAction>
-                    <IconButton onClick={() => handleOpenEditDialog(room)}>
-                      <Edit />
-                    </IconButton>
-                    <IconButton onClick={() => handleDeleteRoom(room.id)}>
-                      <Delete />
-                    </IconButton>
-                  </ListItemSecondaryAction>
-                </ListItem>
+                <>
+                  <ListItem key={room.id}>
+                    <StyledCard>
+                      <CardMedia
+                        component="img"
+                        title={room.name}
+                        src={`https://picsum.photos/seed/${room.id}/400/200?blur`}
+                      />
+                      <CardContent>
+                        <Typography variant="h5">{room.name}</Typography>
+                        <Typography variant="body1">{`¥${room.price}/泊`}</Typography>
+                      </CardContent>
+                      <CardActions>
+                        <IconButton onClick={() => handleOpenEditDialog(room)}>
+                          <Edit />
+                        </IconButton>
+                        <IconButton onClick={() => handleDeleteRoom(room.id)}>
+                          <Delete />
+                        </IconButton>
+                      </CardActions>
+                    </StyledCard>
+                  </ListItem>
+                </>
               )
             })}
         </List>

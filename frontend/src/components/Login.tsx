@@ -42,9 +42,15 @@ export const Login: React.FC = () => {
     }
   }, [history, loginAsGuest, userId])
 
-  const handleLoginAsHost = useCallback(() => {
-    loginAsHost && loginAsHost(userId)
-  }, [loginAsHost, userId])
+  const handleLoginAsHost = useCallback(async () => {
+    try {
+      await loginAsHost(userId)
+      history.push('/hosts/rooms')
+    } catch (err) {
+      setSnackbarMsg('ログインできませんでした。')
+      setOpenSnackbar(true)
+    }
+  }, [history, loginAsHost, userId])
 
   return (
     <StyledContainer>
