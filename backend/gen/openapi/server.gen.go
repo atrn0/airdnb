@@ -29,6 +29,9 @@ type ServerInterface interface {
 	// (POST /guests/users)
 	GuestsPostUsers(ctx echo.Context) error
 
+	// (GET /guests/users/me)
+	GuestsGetMe(ctx echo.Context) error
+
 	// (GET /hosts/reservations)
 	HostsGetReservations(ctx echo.Context) error
 
@@ -43,6 +46,9 @@ type ServerInterface interface {
 
 	// (PUT /hosts/rooms/{roomId})
 	HostsPutRooms(ctx echo.Context, roomId string) error
+
+	// (GET /hosts/users/me)
+	HostsGetMe(ctx echo.Context) error
 }
 
 // ServerInterfaceWrapper converts echo contexts to parameters.
@@ -109,6 +115,17 @@ func (w *ServerInterfaceWrapper) GuestsPostUsers(ctx echo.Context) error {
 
 	// Invoke the callback with all the unmarshalled arguments
 	err = w.Handler.GuestsPostUsers(ctx)
+	return err
+}
+
+// GuestsGetMe converts echo context to params.
+func (w *ServerInterfaceWrapper) GuestsGetMe(ctx echo.Context) error {
+	var err error
+
+	ctx.Set("Bearer.Scopes", []string{""})
+
+	// Invoke the callback with all the unmarshalled arguments
+	err = w.Handler.GuestsGetMe(ctx)
 	return err
 }
 
@@ -181,6 +198,17 @@ func (w *ServerInterfaceWrapper) HostsPutRooms(ctx echo.Context) error {
 	return err
 }
 
+// HostsGetMe converts echo context to params.
+func (w *ServerInterfaceWrapper) HostsGetMe(ctx echo.Context) error {
+	var err error
+
+	ctx.Set("Bearer.Scopes", []string{""})
+
+	// Invoke the callback with all the unmarshalled arguments
+	err = w.Handler.HostsGetMe(ctx)
+	return err
+}
+
 // This is a simple interface which specifies echo.Route addition functions which
 // are present on both echo.Echo and echo.Group, since we want to allow using
 // either of them for path registration
@@ -208,11 +236,12 @@ func RegisterHandlers(router EchoRouter, si ServerInterface) {
 	router.GET("/guests/rooms", wrapper.GuestsGetRooms)
 	router.GET("/guests/rooms/:roomId", wrapper.GuestsGetRoom)
 	router.POST("/guests/users", wrapper.GuestsPostUsers)
+	router.GET("/guests/users/me", wrapper.GuestsGetMe)
 	router.GET("/hosts/reservations", wrapper.HostsGetReservations)
 	router.GET("/hosts/rooms", wrapper.HostsGetRooms)
 	router.POST("/hosts/rooms", wrapper.HostsPostRooms)
 	router.DELETE("/hosts/rooms/:roomId", wrapper.HostsDeleteRooms)
 	router.PUT("/hosts/rooms/:roomId", wrapper.HostsPutRooms)
+	router.GET("/hosts/users/me", wrapper.HostsGetMe)
 
 }
-

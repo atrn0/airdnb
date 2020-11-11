@@ -1,6 +1,7 @@
 package guests
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/jmoiron/sqlx"
@@ -9,6 +10,7 @@ import (
 	"github.com/atrn0/le4db/entity"
 	oapi "github.com/atrn0/le4db/gen/openapi"
 	"github.com/atrn0/le4db/handler/errors"
+	"github.com/atrn0/le4db/middleware/auth"
 )
 
 type UsersHandlerImpl struct {
@@ -17,10 +19,35 @@ type UsersHandlerImpl struct {
 
 type GuestsUsersHandler interface {
 	GuestsPostUsers(ctx echo.Context) error
+	GuestsGetMe(ctx echo.Context) error
 }
 
 func NewUsersHandler(db *sqlx.DB) GuestsUsersHandler {
 	return &UsersHandlerImpl{db}
+}
+
+func (h *UsersHandlerImpl) GuestsGetMe(ctx echo.Context) error {
+	userId := auth.GetUserId(ctx)
+	if userId == "" {
+		return ctx.JSON(
+			http.StatusBadRequest,
+			errors.ErrorRes{Message: "userId is required"},
+		)
+	}
+
+	var me entity.Guest
+	err := h.db.Get(&me, `
+		SELECT * from guests WHERE id = $1
+		`, userId)
+	if err != nil {
+		log.Println(err.Error())
+		return ctx.JSON(http.StatusNotFound, errors.ErrorRes{Message: "not found"})
+	}
+
+	return ctx.JSON(http.StatusOK, oapi.GuestsGetMeRes{
+		Id:   me.ID,
+		Name: me.Name,
+	})
 }
 
 func (h *UsersHandlerImpl) GuestsPostUsers(ctx echo.Context) error {

@@ -13,6 +13,7 @@ type Impl struct {
 	guests.GuestsUsersHandler
 	hosts.HostsRoomsHandler
 	hosts.HostsReservationsHandler
+	hosts.HostsUsersHandler
 }
 
 func NewHandler(db *sqlx.DB) *Impl {
@@ -22,5 +23,6 @@ func NewHandler(db *sqlx.DB) *Impl {
 		guests.NewUsersHandler(db),
 		hosts.NewRoomsHandler(db),
 		hosts.NewReservationsHandler(db),
+		hosts.NewUsersHandler(db),
 	}
 }

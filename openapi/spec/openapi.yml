@@ -24,6 +24,21 @@ paths:
       responses:
         204:
           description: No Content
+  /guests/users/me:
+    get:
+      tags:
+        - guestsUsers
+      operationId: guestsGetMe
+      description: ユーザーを取得
+      security:
+        - Bearer: []
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GuestsGetMeRes'
   /guests/rooms:
     get:
       #      TODO: 検索クエリを追加
@@ -99,6 +114,21 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GuestsReservation'
+  /hosts/users/me:
+    get:
+      tags:
+        - hostsUsers
+      operationId: hostsGetMe
+      description: ユーザーを取得
+      security:
+        - Bearer: []
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HostsGetMeRes'
   /hosts/rooms:
     get:
       tags:
@@ -204,6 +234,18 @@ components:
         name:
           type: string
           example: たなか
+    GuestsGetMeRes:
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: string
+          example: alskdjfaslkdf
+        name:
+          type: string
+          example: たなか
     GuestsGetRoomsRes:
       type: object
       required:
@@ -286,6 +328,18 @@ components:
           example: slafdjio
         room_name:
           type: string
+    HostsGetMeRes:
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: string
+          example: alskdjfaslkdf
+        name:
+          type: string
+          example: たなか
     HostsGetRoomsRes:
       type: object
       required:

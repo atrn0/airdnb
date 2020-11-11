@@ -7,6 +7,12 @@ import (
 	"time"
 )
 
+// GuestsGetMeRes defines model for GuestsGetMeRes.
+type GuestsGetMeRes struct {
+	Id   string `json:"id"`
+	Name string `json:"name"`
+}
+
 // GuestsGetReservationsRes defines model for GuestsGetReservationsRes.
 type GuestsGetReservationsRes struct {
 	Reservations []GuestsReservation `json:"reservations"`
@@ -38,6 +44,12 @@ type GuestsRoom struct {
 	Id     string `json:"id"`
 	Name   string `json:"name"`
 	Price  int    `json:"price"`
+}
+
+// HostsGetMeRes defines model for HostsGetMeRes.
+type HostsGetMeRes struct {
+	Id   string `json:"id"`
+	Name string `json:"name"`
 }
 
 // HostsGetReservationsRes defines model for HostsGetReservationsRes.
@@ -110,4 +122,3 @@ type HostsPostRoomsJSONRequestBody HostsPostRoomsJSONBody
 
 // HostsPutRoomsRequestBody defines body for HostsPutRooms for application/json ContentType.
 type HostsPutRoomsJSONRequestBody HostsPutRoomsJSONBody
-

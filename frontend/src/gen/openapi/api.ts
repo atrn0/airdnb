@@ -22,6 +22,25 @@ import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } fr
 /**
  * 
  * @export
+ * @interface GuestsGetMeRes
+ */
+export interface GuestsGetMeRes {
+    /**
+     * 
+     * @type {string}
+     * @memberof GuestsGetMeRes
+     */
+    id: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GuestsGetMeRes
+     */
+    name: string;
+}
+/**
+ * 
+ * @export
  * @interface GuestsGetReservationsRes
  */
 export interface GuestsGetReservationsRes {
@@ -131,6 +150,25 @@ export interface GuestsRoom {
      * @memberof GuestsRoom
      */
     host_id: string;
+}
+/**
+ * 
+ * @export
+ * @interface HostsGetMeRes
+ */
+export interface HostsGetMeRes {
+    /**
+     * 
+     * @type {string}
+     * @memberof HostsGetMeRes
+     */
+    id: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof HostsGetMeRes
+     */
+    name: string;
 }
 /**
  * 
@@ -670,6 +708,44 @@ export class GuestsRoomsApi extends BaseAPI {
 export const GuestsUsersApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
+         * ユーザーを取得
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        guestsGetMe: async (options: any = {}): Promise<RequestArgs> => {
+            const localVarPath = `/guests/users/me`;
+            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? configuration.accessToken()
+                    : configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
+
+
+    
+            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: globalImportUrl.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * 新しいユーザー(ゲスト)を作成
          * @param {GuestsPostUsersReq} guestsPostUsersReq 新しいユーザーの作成リクエスト
          * @param {*} [options] Override http request option.
@@ -726,6 +802,18 @@ export const GuestsUsersApiAxiosParamCreator = function (configuration?: Configu
 export const GuestsUsersApiFp = function(configuration?: Configuration) {
     return {
         /**
+         * ユーザーを取得
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async guestsGetMe(options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GuestsGetMeRes>> {
+            const localVarAxiosArgs = await GuestsUsersApiAxiosParamCreator(configuration).guestsGetMe(options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
          * 新しいユーザー(ゲスト)を作成
          * @param {GuestsPostUsersReq} guestsPostUsersReq 新しいユーザーの作成リクエスト
          * @param {*} [options] Override http request option.
@@ -748,6 +836,14 @@ export const GuestsUsersApiFp = function(configuration?: Configuration) {
 export const GuestsUsersApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
     return {
         /**
+         * ユーザーを取得
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        guestsGetMe(options?: any): AxiosPromise<GuestsGetMeRes> {
+            return GuestsUsersApiFp(configuration).guestsGetMe(options).then((request) => request(axios, basePath));
+        },
+        /**
          * 新しいユーザー(ゲスト)を作成
          * @param {GuestsPostUsersReq} guestsPostUsersReq 新しいユーザーの作成リクエスト
          * @param {*} [options] Override http request option.
@@ -766,6 +862,16 @@ export const GuestsUsersApiFactory = function (configuration?: Configuration, ba
  * @extends {BaseAPI}
  */
 export class GuestsUsersApi extends BaseAPI {
+    /**
+     * ユーザーを取得
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof GuestsUsersApi
+     */
+    public guestsGetMe(options?: any) {
+        return GuestsUsersApiFp(this.configuration).guestsGetMe(options).then((request) => request(this.axios, this.basePath));
+    }
+
     /**
      * 新しいユーザー(ゲスト)を作成
      * @param {GuestsPostUsersReq} guestsPostUsersReq 新しいユーザーの作成リクエスト
@@ -1231,6 +1337,111 @@ export class HostsRoomsApi extends BaseAPI {
      */
     public hostsPutRooms(roomId: string, hostsPutRoomsReq: HostsPutRoomsReq, options?: any) {
         return HostsRoomsApiFp(this.configuration).hostsPutRooms(roomId, hostsPutRoomsReq, options).then((request) => request(this.axios, this.basePath));
+    }
+
+}
+
+
+/**
+ * HostsUsersApi - axios parameter creator
+ * @export
+ */
+export const HostsUsersApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * ユーザーを取得
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        hostsGetMe: async (options: any = {}): Promise<RequestArgs> => {
+            const localVarPath = `/hosts/users/me`;
+            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? configuration.accessToken()
+                    : configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
+
+
+    
+            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: globalImportUrl.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * HostsUsersApi - functional programming interface
+ * @export
+ */
+export const HostsUsersApiFp = function(configuration?: Configuration) {
+    return {
+        /**
+         * ユーザーを取得
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async hostsGetMe(options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<HostsGetMeRes>> {
+            const localVarAxiosArgs = await HostsUsersApiAxiosParamCreator(configuration).hostsGetMe(options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+    }
+};
+
+/**
+ * HostsUsersApi - factory interface
+ * @export
+ */
+export const HostsUsersApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    return {
+        /**
+         * ユーザーを取得
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        hostsGetMe(options?: any): AxiosPromise<HostsGetMeRes> {
+            return HostsUsersApiFp(configuration).hostsGetMe(options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * HostsUsersApi - object-oriented interface
+ * @export
+ * @class HostsUsersApi
+ * @extends {BaseAPI}
+ */
+export class HostsUsersApi extends BaseAPI {
+    /**
+     * ユーザーを取得
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof HostsUsersApi
+     */
+    public hostsGetMe(options?: any) {
+        return HostsUsersApiFp(this.configuration).hostsGetMe(options).then((request) => request(this.axios, this.basePath));
     }
 
 }
