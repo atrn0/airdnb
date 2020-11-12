@@ -34,7 +34,7 @@ export const Login: React.FC = () => {
 
   const handleLoginAsGuest = useCallback(async () => {
     try {
-      await loginAsGuest(userId)
+      await loginAsGuest(userId || 'buihg30jisednf53vmd0')
       history.push('/guests/rooms')
     } catch (err) {
       setSnackbarMsg('ログインできませんでした。')
@@ -44,7 +44,7 @@ export const Login: React.FC = () => {
 
   const handleLoginAsHost = useCallback(async () => {
     try {
-      await loginAsHost(userId)
+      await loginAsHost(userId || 'buihg30jisednf53vmdg')
       history.push('/hosts/rooms')
     } catch (err) {
       setSnackbarMsg('ログインできませんでした。')
@@ -59,19 +59,12 @@ export const Login: React.FC = () => {
         variant="outlined"
         value={userId}
         onChange={onUserIdChange}
+        style={{marginTop: '20px'}}
       />
-      <StyledButton
-        variant="contained"
-        disabled={!userId}
-        onClick={handleLoginAsHost}
-      >
+      <StyledButton variant="contained" onClick={handleLoginAsHost}>
         ホストとしてログイン
       </StyledButton>
-      <StyledButton
-        variant="contained"
-        disabled={!userId}
-        onClick={handleLoginAsGuest}
-      >
+      <StyledButton variant="contained" onClick={handleLoginAsGuest}>
         ゲストとしてログイン
       </StyledButton>
       <Snackbar
