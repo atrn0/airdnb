@@ -18,4 +18,10 @@ FROM alpine:3
 COPY --from=build-env /le4db /le4db
 RUN chmod a+x /le4db
 
+RUN apk --no-cache add postgresql
+COPY psql /psql
+
+COPY docker-entrypoint.sh /entrypoint.sh
+RUN chmod a+x /entrypoint.sh
+
 EXPOSE 8080

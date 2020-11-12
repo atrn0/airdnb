@@ -62,9 +62,11 @@ services:
     build:
       context: backend
       dockerfile: prod.Dockerfile
+    environment:
+      - PGPASSWORD=pass
     ports:
     - 8080:8080
-    command: /le4db
+    entrypoint: /entrypoint.sh
 
 volumes:
   le4db_pgdata:
