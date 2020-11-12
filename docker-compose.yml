@@ -48,6 +48,17 @@ services:
     volumes:
       - ./frontend:/frontend
     command: yarn start
+  frontend-prod:
+    container_name: le4db-frontend-prod
+    build:
+      context: frontend
+      dockerfile: caddy/Dockerfile
+    ports:
+      - 3001:3000
+    command: caddy run -watch
+    volumes:
+      - ./frontend/caddy:/workspace
+      - ./frontend/build:/var/www
 
 volumes:
   le4db_pgdata:
