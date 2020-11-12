@@ -4,6 +4,9 @@ BACKEND_OPENAPI_GEN_DIR=backend/gen/openapi
 FRONTEND_OPENAPI_GEN_DIR=frontend/src/gen/openapi
 
 start:
+	docker-compose up --build frontend-prod backend-prod postgres
+
+dev:
 	docker-compose up --build app postgres frontend
 
 start-backend:

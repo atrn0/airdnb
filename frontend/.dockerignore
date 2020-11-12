@@ -3,4 +3,3 @@ node_modules/
 .gitignore
 .prettierrc.yaml
 README.md
-tsconfig.json

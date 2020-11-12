@@ -52,13 +52,19 @@ services:
     container_name: le4db-frontend-prod
     build:
       context: frontend
-      dockerfile: caddy/Dockerfile
+      dockerfile: prod.Dockerfile
     ports:
       - 3001:3000
-    command: caddy run -watch
-    volumes:
-      - ./frontend/caddy:/workspace
-      - ./frontend/build:/var/www
+    command: caddy run
+  backend-prod:
+    container_name: le4db-backend-prod
+    restart: always
+    build:
+      context: backend
+      dockerfile: prod.Dockerfile
+    ports:
+    - 8080:8080
+    command: /le4db
 
 volumes:
   le4db_pgdata:
